@@ -1,0 +1,12 @@
+{
+  "user1": {
+    "userName": "Swanky User",
+    "photo": "URL to Photo",
+    "uid": "12345"
+  },
+  "user2": {
+    "userName": "Important Person",
+    "photo": "https://www.randomlists.com/img/people/thomas_jefferson.jpg",
+    "uid": "67890"
+  }
+}
