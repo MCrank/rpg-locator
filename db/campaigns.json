@@ -1,0 +1,32 @@
+{
+  "campaign1": {
+    "title": "Curse of Strahd",
+    "dmName": "Hillary Swank",
+    "dmEmail": "user1@home.com",
+    "playersNeeded": 3,
+    "notes": "This is going to be really fun, won't you be my friend",
+    "street1": "6814 Charlotte Pike",
+    "street2": "",
+    "city": "Nashville",
+    "state": "Tennessee",
+    "zipcode": "37209",
+    "lat": 86.76547,
+    "lng": -76.876544,
+    "uid": "12345"
+  },
+  "campaign2": {
+    "title": "Storm Kings Thunder",
+    "dmName": "Michael Jordon",
+    "dmEmail": "user2@home.com",
+    "playersNeeded": 2,
+    "notes": "The only thing you have to fear, is fear itself",
+    "street1": "236 Second Ave South",
+    "street2": "",
+    "city": "Franklin",
+    "state": "Tennessee",
+    "zipcode": "90210",
+    "lat": 86.76547,
+    "lng": -76.876544,
+    "uid": "12345"
+  }
+}
