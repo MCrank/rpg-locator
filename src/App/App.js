@@ -1,26 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'reactstrap';
-import logo from './logo.svg';
+import AppNavbar from '../components/AppNavbar/AppNavbar';
+import Auth from '../components/pages/Auth/Auth';
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <button className="btn btn-danger">HELP ME</button>
-          <Button tag="a" color="success" size="large" href="http://reactstrap.github.io" target="_blank">
-            View Reactstrap Docs
-          </Button>
-          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </a>
-        </header>
+        <AppNavbar />
+        <Auth />
       </div>
     );
   }
