@@ -21,12 +21,25 @@ class MyCampaigns extends React.Component {
 
   render() {
     const { campaigns } = this.state;
-    const campaignItemComponent = campaignsArr => campaignsArr.map(campaign => <CampaignItem key={campaign.id} campaign={campaign} />);
+    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} />);
 
     return (
-      <div className="myCampaigns">
+      <div className="myCampaigns container-fluid">
         <h1>MyCampaigns</h1>
-        {campaignItemComponent(campaigns)}
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Image</th>
+              <th scope="col">Title</th>
+              <th scope="col">DM</th>
+              <th scope="col">Players Needed</th>
+              <th scope="col-2">Notes</th>
+              <th scope="col">Edit/Delete</th>
+            </tr>
+          </thead>
+          <tbody>{campaignItemComponent(campaigns)}</tbody>
+        </table>
       </div>
     );
   }
