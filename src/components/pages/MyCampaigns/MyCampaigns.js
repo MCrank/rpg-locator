@@ -10,6 +10,10 @@ class MyCampaigns extends React.Component {
   };
 
   componentDidMount() {
+    this.getMyCampaigns();
+  }
+
+  getMyCampaigns = () => {
     campaignRequests
       .getMyCampaigns(authRequests.getCurrentUid())
       .then((results) => {
@@ -18,11 +22,20 @@ class MyCampaigns extends React.Component {
         });
       })
       .catch(error => console.error('An error occured retrieving campaigns', error));
-  }
+  };
+
+  deleteCampaign = (campaignId) => {
+    campaignRequests
+      .deleteCampaign(campaignId)
+      .then(() => {
+        this.getMyCampaigns();
+      })
+      .catch(error => console.error('There was an error deleting your campaign', error));
+  };
 
   render() {
     const { campaigns } = this.state;
-    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} />);
+    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} deleteCampaign={this.deleteCampaign} />);
 
     return (
       <div className="myCampaigns container">
