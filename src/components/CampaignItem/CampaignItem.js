@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import campaignShape from '../../helpers/propz/campaignShape';
-
 import './CampaignItem.scss';
 
 class CampaignItem extends React.Component {
@@ -24,8 +23,8 @@ class CampaignItem extends React.Component {
         <td>{campaign.playersNeeded}</td>
         <td>{campaign.notes}</td>
         <td>
-          <i className="far fa-edit fa-2x mr-2" />
-          <i className="far fa-trash-alt fa-2x ml-2" />
+          <i className="fas fa-scroll fa-lg mr-2" />
+          <i className="fas fa-book-dead fa-lg ml-2" />
         </td>
       </tr>
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import authRequests from '../../../helpers/data/authRequests';
 import campaignRequests from '../../../helpers/data/campaignRequests';
 import CampaignItem from '../../CampaignItem/CampaignItem';
+import './MyCampaigns.scss';
 
 class MyCampaigns extends React.Component {
   state = {
@@ -24,7 +25,7 @@ class MyCampaigns extends React.Component {
     const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} />);
 
     return (
-      <div className="myCampaigns container-fluid">
+      <div className="myCampaigns container">
         <h1>MyCampaigns</h1>
         <table className="table table-striped">
           <thead>
