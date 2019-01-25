@@ -8,7 +8,6 @@ import './MyCampaigns.scss';
 class MyCampaigns extends React.Component {
   state = {
     campaigns: [],
-    // modal: false,
   };
 
   componentDidMount() {
