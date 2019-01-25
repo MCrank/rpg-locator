@@ -7,6 +7,14 @@ class CampaignItem extends React.Component {
   static propTypes = {
     campaign: campaignShape,
     index: PropTypes.number,
+    deleteCampaign: PropTypes.func,
+  };
+
+  removeCampaign = (e) => {
+    e.preventDefault();
+    const campaignId = e.target.id;
+    const { deleteCampaign } = this.props;
+    deleteCampaign(campaignId);
   };
 
   render() {
@@ -23,8 +31,8 @@ class CampaignItem extends React.Component {
         <td>{campaign.playersNeeded}</td>
         <td>{campaign.notes}</td>
         <td>
-          <i className="fas fa-scroll fa-lg mr-2" />
-          <i className="fas fa-book-dead fa-lg ml-2" />
+          <i className="fas fa-scroll fa-lg mr-2" id={campaign.id} />
+          <i className="fas fa-book-dead fa-lg ml-2" id={campaign.id} onClick={this.removeCampaign} />
         </td>
       </tr>
     );
