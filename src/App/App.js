@@ -1,17 +1,15 @@
-import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import React from 'react';
 import {
-  BrowserRouter, Route, Redirect, Switch,
+  BrowserRouter, Redirect, Route, Switch,
 } from 'react-router-dom';
-
-import connection from '../helpers/data/connection';
 import AppNavbar from '../components/AppNavbar/AppNavbar';
 import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
 import MyCampaigns from '../components/pages/MyCampaigns/MyCampaigns';
-
 import authRequests from '../helpers/data/authRequests';
+import connection from '../helpers/data/connection';
 import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
@@ -72,8 +70,8 @@ class App extends React.Component {
         <BrowserRouter>
           <React.Fragment>
             <AppNavbar isAuthed={authed} logoutClickEvent={logoutClickEvent} />
-            <div className="container">
-              <div className="row justify-content-center">
+            <div className="app-content container">
+              <div className="justify-content-center">
                 <Switch>
                   <PublicRoute path="/auth" component={Auth} authed={authed} />
                   <PrivateRoute path="/" exact component={Home} authed={authed} />

@@ -1,7 +1,6 @@
 import React from 'react';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 import authRequests from '../../../helpers/data/authRequests';
-
 import './Auth.scss';
 
 class Auth extends React.Component {

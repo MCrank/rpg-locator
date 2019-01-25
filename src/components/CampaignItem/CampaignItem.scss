@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+img {
+  width: 75px;
+  height: 95px;
+}
+
+.table td,
+.table th {
+  vertical-align: middle !important;
+}
