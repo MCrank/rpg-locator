@@ -21,4 +21,6 @@ const getMyCampaigns = uid => new Promise((resolve, reject) => {
 
 const deleteCampaign = campaignId => axios.delete(`${firebaseDbURL}/campaigns/${campaignId}.json`);
 
-export default { getMyCampaigns, deleteCampaign };
+const newCampaign = campaign => axios.post(`${firebaseDbURL}/campaigns.json`, campaign);
+
+export default { getMyCampaigns, deleteCampaign, newCampaign };
