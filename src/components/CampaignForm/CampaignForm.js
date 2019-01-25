@@ -19,7 +19,8 @@ class CampaignForm extends React.Component {
     modal: false,
     backdrop: 'static',
     newCampaign: defaultCampaign,
-    notesCharCount: 100,
+    notesMaxLength: 125,
+    notesCharCount: 125,
   };
 
   static propTypes = {
@@ -42,11 +43,12 @@ class CampaignForm extends React.Component {
   charCount = (e) => {
     console.log(e.target.textLength);
     this.setState({
-      notesCharCount: 100 - e.target.textLength,
+      notesCharCount: this.state.notesMaxLength - e.target.textLength,
     });
   };
 
   render() {
+    const { notesCharCount, notesMaxLength } = this.state;
     return (
       <div className="CampaignForm">
         <Modal isOpen={this.state.modal} toggle={e => this.toggle(e)} centered backdrop={this.state.backdrop} size="lg">
@@ -83,9 +85,9 @@ class CampaignForm extends React.Component {
               </Row>
               <FormGroup>
                 <Label for="notes">Notes</Label>
-                <Input type="textarea" name="text" id="notes" maxLength="100" onKeyUp={this.charCount} />
+                <Input type="textarea" name="text" id="notes" maxLength={notesMaxLength} onKeyUp={this.charCount} />
                 <Label className="float-right" for="char-count">
-                  Remaining: {this.state.notesCharCount}/100
+                  Remaining: {notesCharCount}/{notesMaxLength}
                 </Label>
               </FormGroup>
               <FormGroup>
