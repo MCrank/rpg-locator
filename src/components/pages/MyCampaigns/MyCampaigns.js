@@ -9,6 +9,9 @@ class MyCampaigns extends React.Component {
   state = {
     campaigns: [],
     showModal: false,
+    isEditing: false,
+    editId: '-1',
+    campaignToEdit: {},
   };
 
   componentDidMount() {
@@ -36,14 +39,43 @@ class MyCampaigns extends React.Component {
       .catch(error => console.error('There was an error deleting your campaign', error));
   };
 
-  addNewCampaign = (newCampaign) => {
+  formSubmitEvent = (newCampaign) => {
+    const { isEditing, editId } = this.state;
+    if (isEditing) {
+      campaignRequests
+        .editCampaign(editId, newCampaign)
+        .then(() => {
+          this.getMyCampaigns();
+          this.setState({
+            showModal: false,
+            isEditing: false,
+            editId: '-1',
+          });
+        })
+        .catch(error => console.error('There was an error editing the campaign', error));
+    } else {
+      campaignRequests
+        .newCampaign(newCampaign)
+        .then(() => {
+          this.getMyCampaigns();
+          this.setState({ showModal: false });
+        })
+        .catch(error => console.error('There was an error creating the new Campaign', error));
+    }
+  };
+
+  editCampaignItem = (campaignId) => {
     campaignRequests
-      .newCampaign(newCampaign)
-      .then(() => {
-        this.getMyCampaigns();
-        this.setState({ showModal: false });
+      .getSingleCampaign(campaignId)
+      .then((campaign) => {
+        this.setState({
+          isEditing: true,
+          editId: campaignId,
+          campaignToEdit: campaign.data,
+        });
+        this.showModal();
       })
-      .catch(error => console.error('There was an error creating the new Campaign', error));
+      .catch(error => console.error('There was an issue getting a single campaign', error));
   };
 
   showModal = () => {
@@ -53,13 +85,21 @@ class MyCampaigns extends React.Component {
   };
 
   render() {
-    const { campaigns } = this.state;
-    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} deleteCampaign={this.deleteCampaign} />);
+    const { campaigns, isEditing, campaignToEdit } = this.state;
+    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} deleteCampaign={this.deleteCampaign} editForm={this.editCampaignItem} />);
+
+    const editFormProps = {
+      campaignToEdit,
+    };
+
+    if (!isEditing) {
+      editFormProps.disabled = true;
+    }
 
     return (
       <div className="myCampaigns container">
         <h1>MyCampaigns</h1>
-        <CampaignForm showModal={this.state.showModal} onSubmit={this.addNewCampaign} />
+        <CampaignForm showModal={this.state.showModal} onSubmit={this.formSubmitEvent} isEditing={isEditing} {...editFormProps} />
         <button className="btn btn-info mb-1 float-right" onClick={this.showModal}>
           New
         </button>

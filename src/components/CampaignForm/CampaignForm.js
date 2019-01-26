@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import {
+  Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row,
+} from 'reactstrap';
 import authRequests from '../../helpers/data/authRequests';
 
 const defaultCampaign = {
@@ -28,6 +30,8 @@ class CampaignForm extends React.Component {
   static propTypes = {
     showModal: PropTypes.bool,
     onSubmit: PropTypes.func,
+    isEditing: PropTypes.bool,
+    campaignToEdit: PropTypes.object,
   };
 
   toggle() {
@@ -37,12 +41,15 @@ class CampaignForm extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    if (props.isEditing) {
+      this.setState({
+        newCampaign: props.campaignToEdit,
+      });
+    }
     this.setState({
       modal: props.showModal,
     });
   }
-
-
 
   formFieldStringState = (name, event) => {
     event.preventDefault();
@@ -89,11 +96,10 @@ class CampaignForm extends React.Component {
     myNewCampaign.uid = authRequests.getCurrentUid();
     onSubmit(myNewCampaign);
     this.setState({ newCampaign: defaultCampaign });
-    // this.setState({ modal: false });
   };
 
   render() {
-    const { notesCharCount, notesMaxLength } = this.state;
+    const { notesCharCount, notesMaxLength, newCampaign } = this.state;
     return (
       <div className="CampaignForm">
         <Modal isOpen={this.state.modal} toggle={e => this.toggle(e)} centered backdrop={this.state.backdrop} size="lg">
@@ -104,13 +110,13 @@ class CampaignForm extends React.Component {
                 <Col md={6}>
                   <FormGroup>
                     <Label for="title">Title</Label>
-                    <Input type="text" name="title" id="title" placeholder="ex: Tomb of Annihilation" onChange={this.titleChange} />
+                    <Input type="text" name="title" id="title" placeholder="ex: Tomb of Annihilation" onChange={this.titleChange} value={newCampaign.title} />
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="playersNeeded">How many players do you need</Label>
-                    <Input type="number" name="number" id="playersNeeded" placeholder="1-10" min="1" max="10" onChange={this.playersChange} />
+                    <Input type="number" name="number" id="playersNeeded" placeholder="1-10" min="1" max="10" onChange={this.playersChange} value={newCampaign.playersNeeded} />
                   </FormGroup>
                 </Col>
               </Row>
@@ -118,48 +124,48 @@ class CampaignForm extends React.Component {
                 <Col md={6}>
                   <FormGroup>
                     <Label for="dmName">DM Name</Label>
-                    <Input type="text" name="dmName" id="dmName" placeholder="John Doe" onChange={this.dmNameChange} />
+                    <Input type="text" name="dmName" id="dmName" placeholder="John Doe" onChange={this.dmNameChange} value={newCampaign.dmName} />
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="dmEmail">Email Address</Label>
-                    <Input type="email" name="email" id="dmEmail" placeholder="cooldm@gmail.com" onChange={this.dmEmailCHange} />
+                    <Input type="email" name="email" id="dmEmail" placeholder="cooldm@gmail.com" onChange={this.dmEmailCHange} value={newCampaign.dmEmail} />
                   </FormGroup>
                 </Col>
               </Row>
               <FormGroup>
                 <Label for="notes">Notes</Label>
-                <Input type="textarea" name="text" id="notes" maxLength={notesMaxLength} onChange={this.notesChange} />
+                <Input type="textarea" name="text" id="notes" maxLength={notesMaxLength} onChange={this.notesChange} value={newCampaign.notes} />
                 <Label className="float-right" for="char-count">
                   Remaining: {notesCharCount}/{notesMaxLength}
                 </Label>
               </FormGroup>
               <FormGroup>
                 <Label for="street1">Address</Label>
-                <Input type="text" name="address" id="street1" placeholder="1234 Main St" onChange={this.street1Change} />
+                <Input type="text" name="address" id="street1" placeholder="1234 Main St" onChange={this.street1Change} value={newCampaign.street1} />
               </FormGroup>
               <FormGroup>
                 <Label for="street2">Address 2</Label>
-                <Input type="text" name="address2" id="street2" placeholder="Apartment, studio, or floor" onChange={this.street2Change} />
+                <Input type="text" name="address2" id="street2" placeholder="Apartment, studio, or floor" onChange={this.street2Change} value={newCampaign.street2} />
               </FormGroup>
               <Row form>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="city">City</Label>
-                    <Input type="text" name="city" id="city" onChange={this.cityChange} />
+                    <Input type="text" name="city" id="city" onChange={this.cityChange} value={newCampaign.city} />
                   </FormGroup>
                 </Col>
                 <Col md={4}>
                   <FormGroup>
                     <Label for="state">State</Label>
-                    <Input type="text" name="state" id="state" onChange={this.stateChange} />
+                    <Input type="text" name="state" id="state" onChange={this.stateChange} value={newCampaign.state} />
                   </FormGroup>
                 </Col>
                 <Col md={2}>
                   <FormGroup>
                     <Label for="zipcode">Zip</Label>
-                    <Input type="text" name="zip" id="zipcode" onChange={this.zipcodeChange} />
+                    <Input type="text" name="zip" id="zipcode" onChange={this.zipcodeChange} value={newCampaign.zipcode} />
                   </FormGroup>
                 </Col>
               </Row>

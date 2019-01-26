@@ -4,10 +4,15 @@ import campaignShape from '../../helpers/propz/campaignShape';
 import './CampaignItem.scss';
 
 class CampaignItem extends React.Component {
+  state = {
+    showModal: false,
+  };
+
   static propTypes = {
     campaign: campaignShape,
     index: PropTypes.number,
     deleteCampaign: PropTypes.func,
+    editForm: PropTypes.func,
   };
 
   removeCampaign = (e) => {
@@ -15,6 +20,18 @@ class CampaignItem extends React.Component {
     const campaignId = e.target.id;
     const { deleteCampaign } = this.props;
     deleteCampaign(campaignId);
+  };
+
+  showModal = () => {
+    this.setState({
+      showModal: true,
+    });
+  };
+
+  onEditForm = (e) => {
+    const campaignId = e.target.id;
+    const { editForm } = this.props;
+    editForm(campaignId);
   };
 
   render() {
@@ -31,7 +48,7 @@ class CampaignItem extends React.Component {
         <td>{campaign.playersNeeded}</td>
         <td>{campaign.notes}</td>
         <td>
-          <i className="fas fa-scroll fa-lg mr-2" id={campaign.id} />
+          <i className="fas fa-scroll fa-lg mr-2" id={campaign.id} onClick={this.onEditForm} />
           <i className="fas fa-book-dead fa-lg ml-2" id={campaign.id} onClick={this.removeCampaign} />
         </td>
       </tr>
