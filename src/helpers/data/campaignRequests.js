@@ -23,4 +23,14 @@ const deleteCampaign = campaignId => axios.delete(`${firebaseDbURL}/campaigns/${
 
 const newCampaign = campaign => axios.post(`${firebaseDbURL}/campaigns.json`, campaign);
 
-export default { getMyCampaigns, deleteCampaign, newCampaign };
+const getSingleCampaign = campaignId => axios.get(`${firebaseDbURL}/campaigns/${campaignId}.json`);
+
+const editCampaign = (campaignId, campaign) => axios.put(`${firebaseDbURL}/campaigns/${campaignId}.json`, campaign);
+
+export default {
+  getMyCampaigns,
+  deleteCampaign,
+  newCampaign,
+  getSingleCampaign,
+  editCampaign,
+};
