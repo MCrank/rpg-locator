@@ -1,9 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React from 'react';
-import {
-  BrowserRouter, Redirect, Route, Switch,
-} from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AppNavbar from '../components/AppNavbar/AppNavbar';
 import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
@@ -70,7 +68,7 @@ class App extends React.Component {
         <BrowserRouter>
           <React.Fragment>
             <AppNavbar isAuthed={authed} logoutClickEvent={logoutClickEvent} />
-            <div className="app-content container">
+            <div className="app-content container-fluid">
               <div className="justify-content-center">
                 <Switch>
                   <PublicRoute path="/auth" component={Auth} authed={authed} />

@@ -1,5 +1,12 @@
 @import '../../../styles/variables';
 
+h1 {
+  text-align: center;
+}
 .suggest-input {
   border-radius: 1.2rem;
+}
+
+.map {
+  height: 500px;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import autoSuggest from '../../../helpers/data/autoSuggest';
+import Map from '../../Map/Map';
 import './Home.scss';
 
 class Home extends React.Component {
@@ -17,8 +18,8 @@ class Home extends React.Component {
       lng: -0.09,
     },
     haveUsersLocation: false,
-    zoom: 2,
-    searchRadius: 24140,
+    zoom: [2],
+    searchRadius: 12070,
   };
 
   componentDidMount() {
@@ -31,7 +32,7 @@ class Home extends React.Component {
               lng: pos.coords.longitude,
             },
             haveUsersLocation: true,
-            zoom: 13,
+            zoom: [9],
           });
         },
         () => {
@@ -43,6 +44,8 @@ class Home extends React.Component {
                   lat: results.data.latitude,
                   lng: results.data.longitude,
                 },
+                haveUsersLocation: true,
+                zoom: [9],
               });
             })
             .catch(error => console.error('There was an error getting IP location', error));
@@ -74,7 +77,15 @@ class Home extends React.Component {
 
   render() {
     const {
-      suggestResults, isLoading, autoFocus, clearButton, selectHintOnEnter,
+      suggestResults,
+      isLoading,
+      autoFocus,
+      clearButton,
+      selectHintOnEnter,
+      position,
+      zoom,
+      haveUsersLocation,
+      searchRadius,
     } = this.state;
     return (
       <div className="Home">
@@ -82,7 +93,7 @@ class Home extends React.Component {
         <AsyncTypeahead
           autoFocus={autoFocus}
           clearButton={clearButton}
-          className="suggest-input"
+          className="suggest-input container"
           labelKey="formattedAddress"
           options={suggestResults}
           isLoading={isLoading}
@@ -91,6 +102,23 @@ class Home extends React.Component {
           bsSize="lg"
           onSearch={this.autoSuggestEvent}
         />
+        <div className="container-fluid mt-5">
+          <div className="row">
+            <div className="col-sm-3">
+              <div className="card text-white bg-info">
+                <h5 className="card-header">Curse of Strahd</h5>
+                <div className="card-body">
+                  <h5 className="card-title">Special title treatment</h5>
+                  <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-1 px-0" />
+            <div className="col-sm-8">
+              <Map position={position} zoom={zoom} haveUsersLocation={haveUsersLocation} searchRadius={searchRadius} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
