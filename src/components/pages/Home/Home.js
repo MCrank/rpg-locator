@@ -2,7 +2,9 @@ import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import autoSuggest from '../../../helpers/data/autoSuggest';
-import Map from '../../Map/Map';
+import mapBoxRequests from '../../../helpers/data/mapBoxRequests';
+import markerRequests from '../../../helpers/data/markerRequests';
+import Maps from '../../Map/Map';
 import './Home.scss';
 
 class Home extends React.Component {
@@ -17,6 +19,7 @@ class Home extends React.Component {
       lat: 51.505,
       lng: -0.09,
     },
+    region: '',
     haveUsersLocation: false,
     zoom: [2],
     searchRadius: 12070,
@@ -27,10 +30,19 @@ class Home extends React.Component {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          // Reverse Geocode to get the region.  This is being used to filter for campaigns that are near the user
+          mapBoxRequests
+            .getReverseGeoRegion(lng, lat)
+            .then((region) => {
+              this.setState({ region });
+            })
+            .catch(error => console.error('There was an error get reverse Geo information', error));
           this.setState({
             position: {
-              lat: pos.coords.latitude,
-              lng: pos.coords.longitude,
+              lat,
+              lng,
             },
             haveUsersLocation: true,
             zoom: [9],
@@ -45,6 +57,7 @@ class Home extends React.Component {
                   lat: results.data.latitude,
                   lng: results.data.longitude,
                 },
+                region: results.data.region,
                 haveUsersLocation: true,
                 zoom: [9],
               });
@@ -60,6 +73,10 @@ class Home extends React.Component {
       console.error('Geolocation is not supported by this browser');
     }
   }
+
+  getNearbyCampaigns = () => {
+    markerRequests.getMarkers();
+  };
 
   autoSuggestEvent = (e) => {
     this.setState({ isLoading: true });
@@ -121,7 +138,7 @@ class Home extends React.Component {
             </div>
             <div className="col-sm-1 px-0" />
             <div className="col-sm-8">
-              <Map position={position} zoom={zoom} haveUsersLocation={haveUsersLocation} searchRadius={searchRadius} />
+              <Maps position={position} zoom={zoom} haveUsersLocation={haveUsersLocation} searchRadius={searchRadius} />
             </div>
           </div>
         </div>

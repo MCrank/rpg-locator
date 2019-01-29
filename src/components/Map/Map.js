@@ -6,10 +6,13 @@ import React from 'react';
 //   Circle, Map, Marker, Popup, TileLayer,
 // } from 'react-leaflet';
 import ReactMapboxGl, { Feature, Layer } from 'react-mapbox-gl';
+import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
-const Map = ReactMapboxGl({
-  accessToken: 'pk.eyJ1IjoibWNyYW5rIiwiYSI6ImNqcjV2aXIxZDA0eTA0M3BnZGg4cWcwOG8ifQ.tTl1AsG0GS4k1aGf7rxNQQ',
+const Mapbox = ReactMapboxGl({
+  accessToken: apiKeys.mapBox.key,
+  // interactive: false,
+  renderWorldCopies: false,
 });
 
 // const myIcon = L.icon({
@@ -31,22 +34,24 @@ class Maps extends React.Component {
     // haveUsersLocation, searchRadius,
     const { position, zoom } = this.props;
     return (
-      <div className="Maps">
-        <Map
-          // eslint-disable-next-line react/style-prop-object
-          style={'mapbox://styles/mcrank/cjrdujrz51j632smgkqkutz7c'}
-          containerStyle={{
-            height: '70vh',
-            width: 'auto',
-          }}
-          center={position}
-          zoom={zoom}
-        >
-          <Layer type="symbol" id="marker" layout={{ 'icon-image': 'harbor-15' }}>
-            <Feature coordinates={position} />
-          </Layer>
-        </Map>
-      </div>
+      // <div className="Maps">
+      <Mapbox
+        // eslint-disable-next-line react/style-prop-object
+        style="mapbox://styles/mcrank/cjrdujrz51j632smgkqkutz7c"
+        // style="mapbox://styles/mcrank/cjrhfdlh90fq82smgxku7fu7s"
+        containerStyle={{
+          height: '70vh',
+          width: 'auto',
+        }}
+        center={position}
+        zoom={zoom}
+      >
+        <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
+          {/* <Feature coordinates={[-0.13235092163085938, 51.518250335096376]} /> */}
+          <Feature coordinates={[position.lng, position.lat]} />
+        </Layer>
+      </Mapbox>
+      // </div>
     );
   }
 }
