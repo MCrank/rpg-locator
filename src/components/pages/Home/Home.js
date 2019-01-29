@@ -20,6 +20,7 @@ class Home extends React.Component {
     haveUsersLocation: false,
     zoom: [2],
     searchRadius: 12070,
+    searchCampaigns: [],
   };
 
   componentDidMount() {
@@ -86,7 +87,11 @@ class Home extends React.Component {
       zoom,
       haveUsersLocation,
       searchRadius,
+      searchCampaigns,
     } = this.state;
+
+    // const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => <CampaignItemSearch key={campaign.id} campaign={campaign} />);
+
     return (
       <div className="Home">
         <h1 className="mt-2">Search for Campaigns</h1>
@@ -105,13 +110,14 @@ class Home extends React.Component {
         <div className="container-fluid mt-5">
           <div className="row">
             <div className="col-sm-3">
-              <div className="card text-white bg-info">
+              {/* {this.campaignItemSearchComponent(searchCampaigns)} */}
+              {/* <div className="card text-white bg-info">
                 <h5 className="card-header">Curse of Strahd</h5>
                 <div className="card-body">
                   <h5 className="card-title">Special title treatment</h5>
                   <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="col-sm-1 px-0" />
             <div className="col-sm-8">
