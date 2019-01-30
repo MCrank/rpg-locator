@@ -4,11 +4,13 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import autoSuggest from '../../../helpers/data/autoSuggest';
 import mapBoxRequests from '../../../helpers/data/mapBoxRequests';
 import markerRequests from '../../../helpers/data/markerRequests';
+import CampaignItemSearch from '../../CampaignItemSearch/CampaignItemSearch';
 import Maps from '../../Map/Map';
 import './Home.scss';
 
 class Home extends React.Component {
   state = {
+    loading: true,
     isLoading: false,
     autoFocus: true,
     clearButton: true,
@@ -74,8 +76,24 @@ class Home extends React.Component {
     }
   }
 
-  getNearbyCampaigns = () => {
-    markerRequests.getMarkers();
+  componentDidUpdate(prevProps, prevState) {
+    const { region, haveUsersLocation } = this.state;
+    if (region && haveUsersLocation) {
+      if (prevState.region !== region) {
+        this.getNearbyCampaigns(region);
+      }
+    }
+  }
+
+  getNearbyCampaigns = (region) => {
+    markerRequests
+      .getMarkers(region)
+      .then((res) => {
+        this.setState({
+          searchCampaigns: res,
+        });
+      })
+      .catch(error => console.error('There was an error retrieving regional campaigns', error));
   };
 
   autoSuggestEvent = (e) => {
@@ -107,7 +125,7 @@ class Home extends React.Component {
       searchCampaigns,
     } = this.state;
 
-    // const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => <CampaignItemSearch key={campaign.id} campaign={campaign} />);
+    const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => <CampaignItemSearch key={campaign.id} campaign={campaign} />);
 
     return (
       <div className="Home">
@@ -127,7 +145,7 @@ class Home extends React.Component {
         <div className="container-fluid mt-5">
           <div className="row">
             <div className="col-sm-3">
-              {/* {this.campaignItemSearchComponent(searchCampaigns)} */}
+              {campaignItemSearchComponent(searchCampaigns)}
               {/* <div className="card text-white bg-info">
                 <h5 className="card-header">Curse of Strahd</h5>
                 <div className="card-body">
