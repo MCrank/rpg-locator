@@ -144,19 +144,16 @@ class Home extends React.Component {
         />
         <div className="container-fluid mt-5">
           <div className="row">
-            <div className="col-sm-3">
-              {campaignItemSearchComponent(searchCampaigns)}
-              {/* <div className="card text-white bg-info">
-                <h5 className="card-header">Curse of Strahd</h5>
-                <div className="card-body">
-                  <h5 className="card-title">Special title treatment</h5>
-                  <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-              </div> */}
-            </div>
+            <div className="col-sm-3">{campaignItemSearchComponent(searchCampaigns)}</div>
             <div className="col-sm-1 px-0" />
             <div className="col-sm-8">
-              <Maps position={position} zoom={zoom} haveUsersLocation={haveUsersLocation} searchRadius={searchRadius} />
+              <Maps
+                position={position}
+                zoom={zoom}
+                haveUsersLocation={haveUsersLocation}
+                searchRadius={searchRadius}
+                campaigns={searchCampaigns}
+              />
             </div>
           </div>
         </div>
