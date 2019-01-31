@@ -111,6 +111,22 @@ class Home extends React.Component {
       .catch(error => console.error('There was an issue gettign autosuggest results', error));
   };
 
+  searchResultsEvent = (e) => {
+    if (e.key === 'Enter') {
+      const { position } = this.state;
+      const searchString = e.target.value;
+      mapBoxRequests
+        .getForwardGeocode(searchString, position.lng, position.lat)
+        .then((res) => {
+          console.log('Home Search', res);
+          this.setState({
+            position: res,
+          });
+        })
+        .catch(error => console.log('there was an error getting the requested location', error));
+    }
+  };
+
   render() {
     const {
       suggestResults,
@@ -141,6 +157,7 @@ class Home extends React.Component {
           placeholder="Enter your address"
           bsSize="lg"
           onSearch={this.autoSuggestEvent}
+          onKeyDown={this.searchResultsEvent}
         />
         <div className="container-fluid mt-5">
           <div className="row">
