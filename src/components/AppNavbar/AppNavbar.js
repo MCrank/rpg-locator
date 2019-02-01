@@ -1,9 +1,8 @@
 import React from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import {
-  Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink,
+  Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink,
 } from 'reactstrap';
-
 import './AppNavbar.scss';
 
 class AppNavbar extends React.Component {
@@ -23,6 +22,12 @@ class AppNavbar extends React.Component {
       if (isAuthed) {
         return (
           <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink tag={RRNavLink} to="/home">
+                Search Campaigns
+                {/* <i className="fas fa-users fa-2x" /> */}
+              </NavLink>
+            </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to="/campaigns">
                 My Campaigns

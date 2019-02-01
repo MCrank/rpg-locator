@@ -1,8 +1,8 @@
 {
   "marker1": {
     "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FCoS.png?alt=media&token=d2960379-9259-4835-af0e-ff45ef9fad49",
-    "lat": 36.06471,
-    "lng": -86.93912,
+    "lat": 36.1658,
+    "lng": -86.670822,
     "notes": "Under raging storm clouds, the vampire Count Strahd von Zarovich stands silhouetted against the ancient walls of Castle Ravenloft. Rumbling thunder pounds the castle spires. The wind’s howling increases as he turns his gaze down toward the village of Barovia.",
     "playersNeeded": 3,
     "state": "Tennessee",
@@ -12,8 +12,8 @@
   },
   "marker2": {
     "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FSKT.jpg?alt=media&token=d0f8a7b4-bb42-48e0-aa29-90232c06cdc9",
-    "lat": 36.13271,
-    "lng": -86.75657,
+    "lat": 36.057695,
+    "lng": -86.79546,
     "notes": "Giants have emerged from their strongholds to threaten civilization as never before. Where is the storm giant King Hekaton, who is tasked with keeping order among the giants?",
     "playersNeeded": 2,
     "state": "Tennessee",
@@ -23,12 +23,67 @@
   },
   "marker3": {
     "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=e1fca638-846d-4adc-9ec1-7ba299cbabed",
-    "lat": 86.76547,
-    "lng": -76.876544,
+    "lat": 36.174145,
+    "lng": -86.886571,
     "notes": "The only thing you have to fear, is fear itself",
     "playersNeeded": 4,
     "state": "Tennessee",
     "title": "Tomb of Annihilation",
+    "zipcode": "37209",
+    "campaignId": "campaign4"
+  },
+  "marker4": {
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=e1fca638-846d-4adc-9ec1-7ba299cbabed",
+    "lat": 28.558394,
+    "lng": -81.428708,
+    "notes": "The only thing you have to fear, is fear itself",
+    "playersNeeded": 4,
+    "state": "Florida",
+    "title": "Storm Kings Thunder",
+    "zipcode": "37209",
+    "campaignId": "campaign4"
+  },
+  "marker5": {
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=e1fca638-846d-4adc-9ec1-7ba299cbabed",
+    "lat": 28.477123,
+    "lng": -81.259466,
+    "notes": "The only thing you have to fear, is fear itself",
+    "playersNeeded": 4,
+    "state": "Florida",
+    "title": "Tomb of Annihilation",
+    "zipcode": "37209",
+    "campaignId": "campaign4"
+  },
+  "marker6": {
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=e1fca638-846d-4adc-9ec1-7ba299cbabed",
+    "lat": 28.778455,
+    "lng": -81.306574,
+    "notes": "The only thing you have to fear, is fear itself",
+    "playersNeeded": 4,
+    "state": "Florida",
+    "title": "Curse of Strahd",
+    "zipcode": "37209",
+    "campaignId": "campaign4"
+  },
+  "marker7": {
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=e1fca638-846d-4adc-9ec1-7ba299cbabed",
+    "lat": 36.071129,
+    "lng": -87.384679,
+    "notes": "The only thing you have to fear, is fear itself",
+    "playersNeeded": 4,
+    "state": "Tennessee",
+    "title": "Your Momma",
+    "zipcode": "37209",
+    "campaignId": "campaign4"
+  },
+  "marker8": {
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=e1fca638-846d-4adc-9ec1-7ba299cbabed",
+    "lat": 35.609232,
+    "lng": -87.075376,
+    "notes": "The only thing you have to fear, is fear itself",
+    "playersNeeded": 4,
+    "state": "Tennessee",
+    "title": "Too Far",
     "zipcode": "37209",
     "campaignId": "campaign4"
   }

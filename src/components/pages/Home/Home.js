@@ -18,13 +18,13 @@ class Home extends React.Component {
     suggestResults: [],
     selectedAddress: [],
     position: {
-      lat: 51.505,
-      lng: -0.09,
+      lat: 0,
+      lng: 0,
     },
     region: '',
     haveUsersLocation: false,
     zoom: [2],
-    searchRadius: 12070,
+    searchRadius: 57,
     searchCampaigns: [],
   };
 
@@ -77,18 +77,20 @@ class Home extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { region, haveUsersLocation } = this.state;
+    const { region, haveUsersLocation, position, searchRadius } = this.state;
     if (region && haveUsersLocation) {
       if (prevState.region !== region) {
-        this.getNearbyCampaigns(region);
+        this.getNearbyCampaigns(region, position, searchRadius);
       }
     }
   }
 
-  getNearbyCampaigns = (region) => {
+  getNearbyCampaigns = (region, currentPosition, maxDistance) => {
     markerRequests
-      .getMarkers(region)
+      .getMarkers(region, currentPosition, maxDistance)
       .then((res) => {
+        console.log(res);
+
         this.setState({
           searchCampaigns: res,
         });
@@ -113,7 +115,7 @@ class Home extends React.Component {
 
   searchResultsEvent = (e) => {
     if (e.key === 'Enter') {
-      const { position } = this.state;
+      const { position, searchRadius } = this.state;
       const searchString = e.target.value;
       mapBoxRequests
         .getForwardGeocode(searchString, position.lng, position.lat)
@@ -122,6 +124,7 @@ class Home extends React.Component {
           this.setState({
             position: res,
           });
+          this.getNearbyCampaigns(res.region, position, searchRadius);
         })
         .catch(error => console.log('there was an error getting the requested location', error));
     }

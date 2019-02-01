@@ -8,7 +8,7 @@ const apiBaseUrl = 'https://dev.virtualearth.net/REST/v1/Autosuggest';
 
 const getAutoSuggest = (query, lat, lng) => new Promise((resolve, reject) => {
   axios
-    .get(`${apiBaseUrl}?q=${query}&ul=${lat},${lng},5000&inclenttype=Address,Business&key=${bingKey}`, {
+    .get(`${apiBaseUrl}?q=${query}&ul=${lat},${lng},50&key=${bingKey}`, {
       headers: {
         'Content-Type': 'application/json',
       },

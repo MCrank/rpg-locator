@@ -1,9 +1,10 @@
 import axios from 'axios';
 import apiKeys from '../apiKeys';
+import utils from '../utils/utils';
 
 const firebaseDbURL = apiKeys.firebaseConfig.databaseURL;
 
-const getMarkers = state => new Promise((resolve, reject) => {
+const getMarkers = (state, currentPos, maxDistance) => new Promise((resolve, reject) => {
   axios
     .get(`${firebaseDbURL}/markers.json?orderBy="state"&equalTo="${state}"`)
     .then((res) => {
@@ -12,7 +13,16 @@ const getMarkers = state => new Promise((resolve, reject) => {
       if (res.data !== null) {
         Object.keys(res.data).forEach((key) => {
           res.data[key].id = key;
-          markersArr.push(res.data[key]);
+          const distance = utils.latlngDistance(
+            currentPos.lat,
+            currentPos.lng,
+            res.data[key].lat,
+            res.data[key].lng,
+            'K',
+          );
+          if (distance <= maxDistance) {
+            markersArr.push(res.data[key]);
+          }
         });
       }
       resolve(markersArr);
