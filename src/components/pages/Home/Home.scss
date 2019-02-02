@@ -1,0 +1,30 @@
+@import '../../../styles/variables';
+
+h1 {
+  text-align: center;
+}
+.suggest-input {
+  border-radius: 1.2rem;
+}
+
+.map {
+  height: 500px;
+}
+.row {
+  // ::-webkit-scrollbar,
+  // ::-webkit-scrollbar-button {
+  //   display: none;
+  // }
+  // -ms-overflow-style: none;
+  ::-webkit-scrollbar-thumb {
+    background: #ff0000;
+  }
+  overflow: hidden;
+}
+
+.campaign-col {
+  height: 75vh;
+  margin-right: -50px;
+  padding-right: 50px;
+  overflow-y: scroll;
+}

@@ -1,0 +1,18 @@
+@import '../../styles//variables';
+
+body {
+  color: $text;
+}
+
+.map {
+  height: 70vh;
+  width: auto;
+}
+
+.Maps {
+  border: 1px solid $text;
+}
+
+.mapboxgl-map {
+  border: 1px solid rgba(192, 192, 192, 0.8) !important;
+}

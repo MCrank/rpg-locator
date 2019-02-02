@@ -1,9 +1,8 @@
 import React from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import {
-  Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink,
+  Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink,
 } from 'reactstrap';
-
 import './AppNavbar.scss';
 
 class AppNavbar extends React.Component {
@@ -24,6 +23,12 @@ class AppNavbar extends React.Component {
         return (
           <Nav className="ml-auto" navbar>
             <NavItem>
+              <NavLink tag={RRNavLink} to="/home">
+                Search Campaigns
+                {/* <i className="fas fa-users fa-2x" /> */}
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink tag={RRNavLink} to="/campaigns">
                 My Campaigns
                 {/* <i className="fas fa-users fa-2x" /> */}
@@ -43,9 +48,9 @@ class AppNavbar extends React.Component {
 
     return (
       <div className="AppNavbar">
-        <Navbar color="info" light expand="md">
+        <Navbar expand="md">
           <NavbarBrand tag={RRNavLink} to="/home">
-            RPG-Locator
+            Dice Or No Dice!
           </NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
