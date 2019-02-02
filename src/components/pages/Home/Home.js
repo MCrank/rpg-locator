@@ -126,11 +126,16 @@ class Home extends React.Component {
               lng: res.lng,
             },
             region: res.region,
+            zoom: [8],
           });
           this.getNearbyCampaigns(this.state.region, this.state.position, searchRadius);
         })
         .catch(error => console.error('there was an error getting the requested location', error));
     }
+  };
+
+  onZoomEndEvent = (zoomLvl) => {
+    this.setState({ zoom: [zoomLvl] });
   };
 
   render() {
@@ -175,6 +180,7 @@ class Home extends React.Component {
                 haveUsersLocation={haveUsersLocation}
                 searchRadius={searchRadius}
                 campaigns={searchCampaigns}
+                onZoomEndEvent={this.onZoomEndEvent}
               />
             </div>
           </div>
