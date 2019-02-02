@@ -77,7 +77,9 @@ class Home extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { region, haveUsersLocation, position, searchRadius } = this.state;
+    const {
+      region, haveUsersLocation, position, searchRadius,
+    } = this.state;
     if (region && haveUsersLocation) {
       if (prevState.region !== region) {
         this.getNearbyCampaigns(region, position, searchRadius);
@@ -89,8 +91,6 @@ class Home extends React.Component {
     markerRequests
       .getMarkers(region, currentPosition, maxDistance)
       .then((res) => {
-        console.log(res);
-
         this.setState({
           searchCampaigns: res,
         });
@@ -120,13 +120,16 @@ class Home extends React.Component {
       mapBoxRequests
         .getForwardGeocode(searchString, position.lng, position.lat)
         .then((res) => {
-          console.log('Home Search', res);
           this.setState({
-            position: res,
+            position: {
+              lat: res.lat,
+              lng: res.lng,
+            },
+            region: res.region,
           });
-          this.getNearbyCampaigns(res.region, position, searchRadius);
+          this.getNearbyCampaigns(this.state.region, this.state.position, searchRadius);
         })
-        .catch(error => console.log('there was an error getting the requested location', error));
+        .catch(error => console.error('there was an error getting the requested location', error));
     }
   };
 
@@ -164,9 +167,8 @@ class Home extends React.Component {
         />
         <div className="container-fluid mt-5">
           <div className="row">
-            <div className="col-sm-3">{campaignItemSearchComponent(searchCampaigns)}</div>
-            <div className="col-sm-1 px-0" />
-            <div className="col-sm-8">
+            <div className="campaign-col col-sm-4">{campaignItemSearchComponent(searchCampaigns)}</div>
+            <div className="map-col col-sm-8">
               <Maps
                 position={position}
                 zoom={zoom}

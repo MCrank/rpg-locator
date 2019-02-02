@@ -8,7 +8,6 @@ const getMarkers = (state, currentPos, maxDistance) => new Promise((resolve, rej
   axios
     .get(`${firebaseDbURL}/markers.json?orderBy="state"&equalTo="${state}"`)
     .then((res) => {
-      console.log('Markers Axios', res.data);
       const markersArr = [];
       if (res.data !== null) {
         Object.keys(res.data).forEach((key) => {

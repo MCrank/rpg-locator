@@ -23,7 +23,6 @@ const getForwardGeocode = (searchString, lng, lat) => new Promise((resolve, reje
     .then((res) => {
       const resData = res.data.features[0].center;
       const regData = res.data.features[0].context[3].text;
-      console.log('Forward Geo', res.data.features[0].center);
       const resPosition = {
         lng: resData[0],
         lat: resData[1],

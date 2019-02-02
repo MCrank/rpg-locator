@@ -26,7 +26,7 @@ class Maps extends React.Component {
         // eslint-disable-next-line react/style-prop-object
         style="mapbox://styles/mcrank/cjrdujrz51j632smgkqkutz7c"
         containerStyle={{
-          height: '70vh',
+          height: '75vh',
           width: 'auto',
         }}
         center={position}

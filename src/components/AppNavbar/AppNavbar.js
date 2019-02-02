@@ -48,9 +48,9 @@ class AppNavbar extends React.Component {
 
     return (
       <div className="AppNavbar">
-        <Navbar color="info" light expand="md">
+        <Navbar expand="md">
           <NavbarBrand tag={RRNavLink} to="/home">
-            RPG-Locator
+            Dice Or No Dice!
           </NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>

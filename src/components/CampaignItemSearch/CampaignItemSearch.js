@@ -12,7 +12,7 @@ class CampaignItemSearch extends React.Component {
   render() {
     const { campaign } = this.props;
     return (
-      <div className="CampaignItemSearch">
+      <div className="CampaignItemSearch mb-3">
         <div className="card text-white bg-info">
           <h5 className="card-header">{campaign.title}</h5>
           <div className="card-body">
