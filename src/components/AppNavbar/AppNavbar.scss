@@ -12,6 +12,6 @@
 }
 
 .navbar-nav > li:not(:last-child) {
-  border-right: 2px dashed tomato;
+  border-right: 2px solid $text;
   box-sizing: border-box;
 }

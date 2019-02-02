@@ -17,12 +17,22 @@ class Maps extends React.Component {
     haveUsersLocation: PropTypes.bool,
     searchRadius: PropTypes.number,
     campaigns: PropTypes.array,
+    onZoomEndEvent: PropTypes.func,
+  };
+
+  getCurrentZoom = () => {
+    const { onZoomEndEvent } = this.props;
+    const zoom = this.map.getZoom();
+    onZoomEndEvent(zoom);
   };
 
   render() {
     const { position, zoom, campaigns } = this.props;
     return (
       <Mapbox
+        onStyleLoad={(el) => {
+          this.map = el;
+        }}
         // eslint-disable-next-line react/style-prop-object
         style="mapbox://styles/mcrank/cjrdujrz51j632smgkqkutz7c"
         containerStyle={{
@@ -31,6 +41,7 @@ class Maps extends React.Component {
         }}
         center={position}
         zoom={zoom}
+        onZoomEnd={this.getCurrentZoom}
       >
         <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
           {campaigns.map(campaign => (
