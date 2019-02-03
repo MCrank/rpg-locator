@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row,
-} from 'reactstrap';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import authRequests from '../../helpers/data/authRequests';
+import autoSuggest from '../../helpers/data/autoSuggest';
+import './CampaignForm.scss';
 
 const defaultCampaign = {
   title: '',
   dmName: '',
   dmEmail: '',
-  playersNeeded: 0,
+  playersNeeded: '',
   notes: '',
   street1: '',
   street2: '',
@@ -25,6 +26,9 @@ class CampaignForm extends React.Component {
     newCampaign: defaultCampaign,
     notesMaxLength: 125,
     notesCharCount: 125,
+    isLoading: false,
+    suggestResults: [],
+    suggestedArray: [],
   };
 
   static propTypes = {
@@ -64,6 +68,19 @@ class CampaignForm extends React.Component {
     this.setState({ newCampaign: tempListing });
   };
 
+  autoSuggestState = (name, event) => {
+    const { suggestedArray } = this.state;
+    const templisting = { ...this.state.newCampaign };
+    const selectedSuggest = suggestedArray.filter(s => s.address.formattedAddress === name[0]);
+    const formFill = selectedSuggest[0].address;
+    templisting.street1 = formFill.addressLine;
+    templisting.city = formFill.locality;
+    templisting.state = formFill.adminDistrict;
+    templisting.zipcode = formFill.postalCode;
+    this.setState({ newCampaign: templisting });
+    this.typeahead.getInstance().clear();
+  };
+
   titleChange = event => this.formFieldStringState('title', event);
 
   playersChange = event => this.formFieldNumberState('playersNeeded', event);
@@ -98,11 +115,28 @@ class CampaignForm extends React.Component {
     this.setState({ newCampaign: defaultCampaign });
   };
 
+  autoSuggestEvent = (e) => {
+    this.setState({ isLoading: true });
+    const query = e;
+    autoSuggest
+      .getAutoSuggestForm(query)
+      .then((results) => {
+        this.setState({
+          isLoading: false,
+          suggestResults: results[0],
+          suggestedArray: results[1],
+        });
+      })
+      .catch(error => console.error('There was an issue gettign autosuggest results', error));
+  };
+
   render() {
-    const { notesCharCount, notesMaxLength, newCampaign } = this.state;
+    const {
+      notesCharCount, notesMaxLength, newCampaign, isLoading, suggestResults,
+    } = this.state;
     return (
       <div className="CampaignForm">
-        <Modal isOpen={this.state.modal} toggle={e => this.toggle(e)} centered backdrop={this.state.backdrop} size="lg">
+        <Modal className="form-modal" isOpen={this.state.modal} toggle={e => this.toggle(e)} centered backdrop={this.state.backdrop} size="lg">
           <ModalHeader toggle={e => this.toggle(e)}>Add New Campaign</ModalHeader>
           <ModalBody>
             <Form>
@@ -110,13 +144,31 @@ class CampaignForm extends React.Component {
                 <Col md={6}>
                   <FormGroup>
                     <Label for="title">Title</Label>
-                    <Input type="text" name="title" id="title" placeholder="ex: Tomb of Annihilation" onChange={this.titleChange} value={newCampaign.title} />
+                    <Input
+                      className="form-input"
+                      type="text"
+                      name="title"
+                      id="title"
+                      placeholder="ex: Tomb of Annihilation"
+                      onChange={this.titleChange}
+                      value={newCampaign.title}
+                    />
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="playersNeeded">How many players do you need</Label>
-                    <Input type="number" name="number" id="playersNeeded" placeholder="1-10" min="1" max="10" onChange={this.playersChange} value={newCampaign.playersNeeded} />
+                    <Input
+                      className="form-input"
+                      type="number"
+                      name="number"
+                      id="playersNeeded"
+                      placeholder="1-10"
+                      min="1"
+                      max="10"
+                      onChange={this.playersChange}
+                      value={newCampaign.playersNeeded}
+                    />
                   </FormGroup>
                 </Col>
               </Row>
@@ -124,48 +176,127 @@ class CampaignForm extends React.Component {
                 <Col md={6}>
                   <FormGroup>
                     <Label for="dmName">DM Name</Label>
-                    <Input type="text" name="dmName" id="dmName" placeholder="John Doe" onChange={this.dmNameChange} value={newCampaign.dmName} />
+                    <Input
+                      className="form-input"
+                      type="text"
+                      name="dmName"
+                      id="dmName"
+                      placeholder="Masta Blasta"
+                      onChange={this.dmNameChange}
+                      value={newCampaign.dmName}
+                    />
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="dmEmail">Email Address</Label>
-                    <Input type="email" name="email" id="dmEmail" placeholder="cooldm@gmail.com" onChange={this.dmEmailCHange} value={newCampaign.dmEmail} />
+                    <Input
+                      className="form-input"
+                      type="email"
+                      name="email"
+                      id="dmEmail"
+                      placeholder="OneCoolDM@domain.com"
+                      onChange={this.dmEmailCHange}
+                      value={newCampaign.dmEmail}
+                    />
                   </FormGroup>
                 </Col>
               </Row>
               <FormGroup>
                 <Label for="notes">Notes</Label>
-                <Input type="textarea" name="text" id="notes" maxLength={notesMaxLength} onChange={this.notesChange} value={newCampaign.notes} />
+                <Input
+                  className="form-input"
+                  type="textarea"
+                  name="text"
+                  id="notes"
+                  maxLength={notesMaxLength}
+                  onChange={this.notesChange}
+                  value={newCampaign.notes}
+                />
                 <Label className="float-right" for="char-count">
                   Remaining: {notesCharCount}/{notesMaxLength}
                 </Label>
               </FormGroup>
+              <hr className="mt-5" />
               <FormGroup>
+                <Label className="typeahead-label" for="street1">
+                  Search for Address
+                </Label>
+                <AsyncTypeahead
+                  className="form-input mb-2"
+                  ref={(typeahead) => {
+                    this.typeahead = typeahead;
+                  }}
+                  clearButton={true}
+                  id="street1"
+                  placeholder="Search for address OR type below"
+                  options={suggestResults}
+                  isLoading={isLoading}
+                  onSearch={this.autoSuggestEvent}
+                  onChange={this.autoSuggestState}
+                  value={newCampaign.street1}
+                />
                 <Label for="street1">Address</Label>
-                <Input type="text" name="address" id="street1" placeholder="1234 Main St" onChange={this.street1Change} value={newCampaign.street1} />
+                <Input
+                  className="form-input"
+                  type="text"
+                  name="address"
+                  id="street1"
+                  placeholder="1234 Main St"
+                  onChange={this.street1Change}
+                  value={newCampaign.street1}
+                />
               </FormGroup>
               <FormGroup>
                 <Label for="street2">Address 2</Label>
-                <Input type="text" name="address2" id="street2" placeholder="Apartment, studio, or floor" onChange={this.street2Change} value={newCampaign.street2} />
+                <Input
+                  className="form-input"
+                  type="text"
+                  name="address2"
+                  id="street2"
+                  placeholder="Apartment, studio, or floor"
+                  onChange={this.street2Change}
+                  value={newCampaign.street2}
+                />
               </FormGroup>
               <Row form>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="city">City</Label>
-                    <Input type="text" name="city" id="city" onChange={this.cityChange} value={newCampaign.city} />
+                    <Input
+                      className="form-input"
+                      type="text"
+                      name="city"
+                      id="city"
+                      onChange={this.cityChange}
+                      value={newCampaign.city}
+                    />
                   </FormGroup>
                 </Col>
                 <Col md={4}>
                   <FormGroup>
                     <Label for="state">State</Label>
-                    <Input type="text" name="state" id="state" onChange={this.stateChange} value={newCampaign.state} />
+                    <Input
+                      className="form-input"
+                      type="text"
+                      name="state"
+                      id="state"
+                      onChange={this.stateChange}
+                      value={newCampaign.state}
+                    />
                   </FormGroup>
                 </Col>
                 <Col md={2}>
                   <FormGroup>
                     <Label for="zipcode">Zip</Label>
-                    <Input type="text" name="zip" id="zipcode" onChange={this.zipcodeChange} value={newCampaign.zipcode} />
+                    <Input
+                      className="form-input"
+                      type="text"
+                      name="zip"
+                      id="zipcode"
+                      onChange={this.zipcodeChange}
+                      value={newCampaign.zipcode}
+                    />
                   </FormGroup>
                 </Col>
               </Row>

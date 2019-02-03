@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, { Feature, Layer } from 'react-mapbox-gl';
+import ReactMapboxGl, {
+  Feature, Layer, RotationControl, ScaleControl, ZoomControl,
+} from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
 const Mapbox = ReactMapboxGl({
   accessToken: apiKeys.mapBox.key,
-  // interactive: false,
   renderWorldCopies: false,
 });
 
@@ -14,6 +15,7 @@ class Maps extends React.Component {
   static propTypes = {
     position: PropTypes.object,
     zoom: PropTypes.array,
+    pitch: PropTypes.array,
     haveUsersLocation: PropTypes.bool,
     searchRadius: PropTypes.number,
     campaigns: PropTypes.array,
@@ -22,12 +24,16 @@ class Maps extends React.Component {
 
   getCurrentZoom = () => {
     const { onZoomEndEvent } = this.props;
-    const zoom = this.map.getZoom();
-    onZoomEndEvent(zoom);
+    if (this.map) {
+      const zoom = this.map.getZoom();
+      onZoomEndEvent(zoom);
+    }
   };
 
   render() {
-    const { position, zoom, campaigns } = this.props;
+    const {
+      position, zoom, pitch, campaigns,
+    } = this.props;
     return (
       <Mapbox
         onStyleLoad={(el) => {
@@ -41,8 +47,13 @@ class Maps extends React.Component {
         }}
         center={position}
         zoom={zoom}
+        pitch={pitch}
         onZoomEnd={this.getCurrentZoom}
       >
+        <ZoomControl />
+        <RotationControl position="top-right" style={{ top: 80 }} />
+        <ScaleControl measurement="mi" position="top-left" />
+
         <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
           {campaigns.map(campaign => (
             <Feature key={campaign.campaignId} coordinates={[campaign.lng, campaign.lat]} properties />
