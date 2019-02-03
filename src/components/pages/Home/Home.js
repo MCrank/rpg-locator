@@ -1,6 +1,7 @@
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { InputGroup } from 'reactstrap';
 import autoSuggest from '../../../helpers/data/autoSuggest';
 import mapBoxRequests from '../../../helpers/data/mapBoxRequests';
 import markerRequests from '../../../helpers/data/markerRequests';
@@ -10,13 +11,12 @@ import './Home.scss';
 
 class Home extends React.Component {
   state = {
-    loading: true,
     isLoading: false,
     autoFocus: true,
     clearButton: true,
     selectHintOnEnter: true,
     suggestResults: [],
-    selectedAddress: [],
+    selectedSearchAddress: '',
     position: {
       lat: 0,
       lng: 0,
@@ -24,6 +24,7 @@ class Home extends React.Component {
     region: '',
     haveUsersLocation: false,
     zoom: [2],
+    pitch: [0],
     searchRadius: 57,
     searchCampaigns: [],
   };
@@ -47,7 +48,7 @@ class Home extends React.Component {
               lng,
             },
             haveUsersLocation: true,
-            zoom: [9],
+            zoom: [8],
           });
         },
         () => {
@@ -61,7 +62,7 @@ class Home extends React.Component {
                 },
                 region: results.data.region,
                 haveUsersLocation: true,
-                zoom: [9],
+                zoom: [8],
               });
             })
             .catch(error => console.error('There was an error getting IP location', error));
@@ -127,10 +128,14 @@ class Home extends React.Component {
             },
             region: res.region,
             zoom: [8],
+            pitch: [0],
           });
           this.getNearbyCampaigns(this.state.region, this.state.position, searchRadius);
+          this.typeahead.getInstance().clear();
         })
         .catch(error => console.error('there was an error getting the requested location', error));
+    } else {
+      this.setState({ selectedSearchAddress: e.target.value });
     }
   };
 
@@ -147,6 +152,7 @@ class Home extends React.Component {
       selectHintOnEnter,
       position,
       zoom,
+      pitch,
       haveUsersLocation,
       searchRadius,
       searchCampaigns,
@@ -157,19 +163,28 @@ class Home extends React.Component {
     return (
       <div className="Home">
         <h1 className="mt-2">Search for Campaigns</h1>
-        <AsyncTypeahead
-          autoFocus={autoFocus}
-          clearButton={clearButton}
-          className="suggest-input container"
-          labelKey="formattedAddress"
-          options={suggestResults}
-          isLoading={isLoading}
-          selectHintOnEnter={selectHintOnEnter}
-          placeholder="Enter your address"
-          bsSize="lg"
-          onSearch={this.autoSuggestEvent}
-          onKeyDown={this.searchResultsEvent}
-        />
+        <InputGroup className="search-form container w-50">
+          <AsyncTypeahead
+            ref={(typeahead) => {
+              this.typeahead = typeahead;
+            }}
+            autoFocus={autoFocus}
+            clearButton={clearButton}
+            className="suggest-input"
+            labelKey="formattedAddress"
+            options={suggestResults}
+            isLoading={isLoading}
+            selectHintOnEnter={selectHintOnEnter}
+            placeholder="Type your address, 'Enter' to Search"
+            bsSize="lg"
+            onSearch={this.autoSuggestEvent}
+            onKeyDown={this.searchResultsEvent}
+          />
+          {/* Was thinking to use ths button. Going to leave it for now just in case */}
+          {/* <InputGroupAddon addonType="append">
+            <Button color="secondary">Search</Button>
+          </InputGroupAddon> */}
+        </InputGroup>
         <div className="container-fluid mt-5">
           <div className="row">
             <div className="campaign-col col-sm-4">{campaignItemSearchComponent(searchCampaigns)}</div>
@@ -177,6 +192,7 @@ class Home extends React.Component {
               <Maps
                 position={position}
                 zoom={zoom}
+                pitch={pitch}
                 haveUsersLocation={haveUsersLocation}
                 searchRadius={searchRadius}
                 campaigns={searchCampaigns}
