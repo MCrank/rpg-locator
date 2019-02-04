@@ -56,7 +56,10 @@ class MyCampaigns extends React.Component {
     } else {
       campaignRequests
         .newCampaign(newCampaign)
-        .then(() => {
+        .then((res) => {
+          console.log(res);
+          // markerRequests
+          // .newMarker(res.data.name)
           this.getMyCampaigns();
           this.setState({ showModal: false });
         })
@@ -86,7 +89,15 @@ class MyCampaigns extends React.Component {
 
   render() {
     const { campaigns, isEditing, campaignToEdit } = this.state;
-    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => <CampaignItem key={campaign.id} campaign={campaign} index={index} deleteCampaign={this.deleteCampaign} editForm={this.editCampaignItem} />);
+    const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => (
+        <CampaignItem
+          key={campaign.id}
+          campaign={campaign}
+          index={index}
+          deleteCampaign={this.deleteCampaign}
+          editForm={this.editCampaignItem}
+        />
+    ));
 
     const editFormProps = {
       campaignToEdit,
@@ -99,7 +110,12 @@ class MyCampaigns extends React.Component {
     return (
       <div className="myCampaigns container">
         <h1>MyCampaigns</h1>
-        <CampaignForm showModal={this.state.showModal} onSubmit={this.formSubmitEvent} isEditing={isEditing} {...editFormProps} />
+        <CampaignForm
+          showModal={this.state.showModal}
+          onSubmit={this.formSubmitEvent}
+          isEditing={isEditing}
+          {...editFormProps}
+        />
         <button className="btn btn-info mb-1 float-right" onClick={this.showModal}>
           New
         </button>

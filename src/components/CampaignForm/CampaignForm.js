@@ -1,7 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import {
+  Button,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+} from 'reactstrap';
 import authRequests from '../../helpers/data/authRequests';
 import autoSuggest from '../../helpers/data/autoSuggest';
 import './CampaignForm.scss';
@@ -19,16 +31,34 @@ const defaultCampaign = {
   zipcode: '',
   uid: '',
 };
+
+const defaultMarker = {
+  title: '',
+  playersNeeded: '',
+  state: '',
+  zipcode: '',
+  notes: '',
+  lat: '',
+  lng: '',
+  imgUrl: '',
+  campaignId: '',
+};
+
 class CampaignForm extends React.Component {
   state = {
     modal: false,
     backdrop: 'static',
     newCampaign: defaultCampaign,
+    newMarker: defaultMarker,
     notesMaxLength: 125,
     notesCharCount: 125,
     isLoading: false,
     suggestResults: [],
     suggestedArray: [],
+    position: {
+      lat: '',
+      lng: '',
+    },
   };
 
   static propTypes = {
@@ -41,6 +71,17 @@ class CampaignForm extends React.Component {
   toggle() {
     this.setState({
       modal: !this.state,
+    });
+  }
+
+  componentDidMount() {
+    autoSuggest.getIpLocation().then((res) => {
+      this.setState({
+        position: {
+          lat: res.data.latitude,
+          lng: res.data.longitude,
+        },
+      });
     });
   }
 
@@ -57,28 +98,49 @@ class CampaignForm extends React.Component {
 
   formFieldStringState = (name, event) => {
     event.preventDefault();
-    const tempListing = { ...this.state.newCampaign };
-    tempListing[name] = event.target.value;
-    this.setState({ newCampaign: tempListing });
+    const tempCampaign = { ...this.state.newCampaign };
+    const tempMarker = { ...this.state.newMarker };
+    tempCampaign[name] = event.target.value;
+    if ([, 'title', 'state', 'zipcode', 'notes', 'imgUrl'].indexOf(name) >= 0) {
+      tempMarker[name] = event.target.value;
+    }
+    this.setState({
+      newCampaign: tempCampaign,
+      newMarker: tempMarker,
+    });
   };
 
   formFieldNumberState = (name, event) => {
-    const tempListing = { ...this.state.newCampaign };
-    tempListing[name] = event.target.value * 1;
-    this.setState({ newCampaign: tempListing });
+    const tempCampaign = { ...this.state.newCampaign };
+    const tempMarker = { ...this.state.newMarker };
+    tempCampaign[name] = event.target.value * 1;
+    tempMarker[name] = event.target.value * 1;
+    this.setState({
+      newCampaign: tempCampaign,
+      newMarker: tempMarker,
+    });
   };
 
   autoSuggestState = (name, event) => {
     const { suggestedArray } = this.state;
-    const templisting = { ...this.state.newCampaign };
+    const tempCampaign = { ...this.state.newCampaign };
+    const tempMarker = { ...this.state.newMarker };
     const selectedSuggest = suggestedArray.filter(s => s.address.formattedAddress === name[0]);
     const formFill = selectedSuggest[0].address;
-    templisting.street1 = formFill.addressLine;
-    templisting.city = formFill.locality;
-    templisting.state = formFill.adminDistrict;
-    templisting.zipcode = formFill.postalCode;
-    this.setState({ newCampaign: templisting });
+    tempCampaign.street1 = formFill.addressLine;
+    tempCampaign.city = formFill.locality;
+    tempMarker.city = formFill.locality;
+    tempCampaign.state = formFill.adminDistrict;
+    tempMarker.state = formFill.adminDistrict;
+    tempCampaign.zipcode = formFill.postalCode;
+    tempMarker.zipcode = formFill.postalCode;
+    this.setState({
+      newCampaign: tempCampaign,
+      newMarker: tempMarker,
+    });
     this.typeahead.getInstance().clear();
+    // This is where I am and what I am thinking.  Trying to get LAT/LNG to pass into Forward GEO
+    // So I can get the LAT/LNG for the campaign MArker.
   };
 
   titleChange = event => this.formFieldStringState('title', event);
@@ -136,7 +198,14 @@ class CampaignForm extends React.Component {
     } = this.state;
     return (
       <div className="CampaignForm">
-        <Modal className="form-modal" isOpen={this.state.modal} toggle={e => this.toggle(e)} centered backdrop={this.state.backdrop} size="lg">
+        <Modal
+          className="form-modal"
+          isOpen={this.state.modal}
+          toggle={e => this.toggle(e)}
+          centered
+          backdrop={this.state.backdrop}
+          size="lg"
+        >
           <ModalHeader toggle={e => this.toggle(e)}>Add New Campaign</ModalHeader>
           <ModalBody>
             <Form>
