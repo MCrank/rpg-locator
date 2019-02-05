@@ -1,0 +1,12 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "campaigns": {
+      ".indexOn": "uid"
+    },
+    "markers": {
+      ".indexOn": ["state", "campaignId"]
+    }
+  }
+}
