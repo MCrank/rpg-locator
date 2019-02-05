@@ -34,6 +34,11 @@ class MyCampaigns extends React.Component {
     campaignRequests
       .deleteCampaign(campaignId)
       .then(() => {
+        markerRequests.getMarkerIdForDelete(campaignId).then((markerId) => {
+          if (markerId !== null) {
+            markerRequests.deleteMarker(markerId);
+          }
+        });
         this.getMyCampaigns();
         this.setState({ showModal: false });
       })
