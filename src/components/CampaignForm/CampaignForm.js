@@ -56,11 +56,24 @@ class CampaignForm extends React.Component {
     onSubmit: PropTypes.func,
     isEditing: PropTypes.bool,
     campaignToEdit: PropTypes.object,
+    markerToEdit: PropTypes.object,
+    modalCloseEvent: PropTypes.func,
   };
 
   toggle() {
     this.setState({
       modal: !this.state,
+    });
+  }
+
+  modalClosed() {
+    const { modalCloseEvent } = this.props;
+    modalCloseEvent();
+    this.setState({
+      newCampaign: defaultCampaign,
+      newMarker: defaultMarker,
+      campaignToEdit: defaultCampaign,
+      markerToEdit: defaultMarker,
     });
   }
 
@@ -79,6 +92,7 @@ class CampaignForm extends React.Component {
     if (props.isEditing) {
       this.setState({
         newCampaign: props.campaignToEdit,
+        newMarker: props.markerToEdit,
       });
     }
     this.setState({
@@ -203,11 +217,14 @@ class CampaignForm extends React.Component {
           className="form-modal"
           isOpen={this.state.modal}
           toggle={e => this.toggle(e)}
+          onClosed={e => this.modalClosed(e)}
           centered
           backdrop={this.state.backdrop}
           size="lg"
         >
-          <ModalHeader toggle={e => this.toggle(e)}>Add New Campaign</ModalHeader>
+          <ModalHeader toggle={e => this.toggle(e)}>
+            {this.props.isEditing ? 'Edit Campaign' : 'Add New Campaign'}
+          </ModalHeader>
           <ModalBody>
             <Form>
               <Row form>

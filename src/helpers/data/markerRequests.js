@@ -29,7 +29,7 @@ const getMarkers = (state, currentPos, maxDistance) => new Promise((resolve, rej
     .catch(error => reject(error));
 });
 
-const getMarkerIdForDelete = campaignId => new Promise((resolve, reject) => {
+const getSingleMarkerId = campaignId => new Promise((resolve, reject) => {
   axios
     .get(`${firebaseDbURL}/markers.json?orderBy="campaignId"&equalTo="${campaignId}"`)
     .then((res) => {
@@ -47,13 +47,13 @@ const deleteMarker = markerId => axios.delete(`${firebaseDbURL}/markers/${marker
 
 const newMarker = marker => axios.post(`${firebaseDbURL}/markers.json`, marker);
 
-const getSingleMarker = campaignId => axios.get(`${firebaseDbURL}/markers/${campaignId}.json`);
+const getSingleMarker = markerId => axios.get(`${firebaseDbURL}/markers/${markerId}.json`);
 
-const editMarker = (campaignId, campaign) => axios.put(`${firebaseDbURL}/markers/${campaignId}.json`, campaign);
+const editMarker = (markerId, marker) => axios.put(`${firebaseDbURL}/markers/${markerId}.json`, marker);
 
 export default {
   getMarkers,
-  getMarkerIdForDelete,
+  getSingleMarkerId,
   deleteMarker,
   newMarker,
   getSingleMarker,

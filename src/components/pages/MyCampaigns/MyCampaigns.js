@@ -11,8 +11,10 @@ class MyCampaigns extends React.Component {
     campaigns: [],
     showModal: false,
     isEditing: false,
-    editId: '-1',
+    campaignEditId: '-1',
+    markerEditId: '-1',
     campaignToEdit: {},
+    markerToEdit: {},
   };
 
   componentDidMount() {
@@ -34,7 +36,7 @@ class MyCampaigns extends React.Component {
     campaignRequests
       .deleteCampaign(campaignId)
       .then(() => {
-        markerRequests.getMarkerIdForDelete(campaignId).then((markerId) => {
+        markerRequests.getSingleMarkerId(campaignId).then((markerId) => {
           if (markerId !== null) {
             markerRequests.deleteMarker(markerId);
           }
@@ -46,16 +48,19 @@ class MyCampaigns extends React.Component {
   };
 
   formSubmitEvent = (newCampaign, newMarker) => {
-    const { isEditing, editId } = this.state;
+    const { isEditing, campaignEditId, markerEditId } = this.state;
     if (isEditing) {
       campaignRequests
-        .editCampaign(editId)
+        .editCampaign(campaignEditId, newCampaign)
         .then(() => {
-          this.getMyCampaigns();
-          this.setState({
-            showModal: false,
-            isEditing: false,
-            editId: '-1',
+          markerRequests.editMarker(markerEditId, newMarker).then(() => {
+            this.getMyCampaigns();
+            this.setState({
+              showModal: false,
+              isEditing: false,
+              campaignEditId: '-1',
+              markerEditId: '-1',
+            });
           });
         })
         .catch(error => console.error('There was an error editing the campaign', error));
@@ -76,10 +81,16 @@ class MyCampaigns extends React.Component {
     campaignRequests
       .getSingleCampaign(campaignId)
       .then((campaign) => {
-        this.setState({
-          isEditing: true,
-          editId: campaignId,
-          campaignToEdit: campaign.data,
+        markerRequests.getSingleMarkerId(campaignId).then((markerId) => {
+          this.setState({ markerEditId: markerId });
+          markerRequests.getSingleMarker(markerId).then((marker) => {
+            this.setState({
+              isEditing: true,
+              campaignEditId: campaignId,
+              campaignToEdit: campaign.data,
+              markerToEdit: marker.data,
+            });
+          });
         });
         this.showModal();
       })
@@ -92,8 +103,18 @@ class MyCampaigns extends React.Component {
     });
   };
 
+  modalCloseEvent = () => {
+    this.setState({
+      campaignToEdit: {},
+      markerToEdit: {},
+      showModal: false,
+    });
+  };
+
   render() {
-    const { campaigns, isEditing, campaignToEdit } = this.state;
+    const {
+      campaigns, isEditing, campaignToEdit, markerToEdit,
+    } = this.state;
     const campaignItemComponent = campaignsArr => campaignsArr.map((campaign, index) => (
         <CampaignItem
           key={campaign.id}
@@ -106,6 +127,7 @@ class MyCampaigns extends React.Component {
 
     const editFormProps = {
       campaignToEdit,
+      markerToEdit,
     };
 
     if (!isEditing) {
@@ -120,6 +142,7 @@ class MyCampaigns extends React.Component {
           onSubmit={this.formSubmitEvent}
           isEditing={isEditing}
           {...editFormProps}
+          modalCloseEvent={this.modalCloseEvent}
         />
         <button className="btn btn-info mb-1 float-right" onClick={this.showModal}>
           New
