@@ -52,6 +52,9 @@ This is a site that can be used to search for any Role-Playng Games that are in 
   - Create a project
   - Enable Google Authentication - [Before you Begin Section](https://firebase.google.com/docs/auth/web/google-signin?authuser=0)
   - Create a Firebase **Realtime Database** (Not Firestore)
+  - Import the `Seed` data located in the `/db/` folder
+    - Import `!base` to setup the collections
+    - Import `campaigns.json`, `markers.json`, and `users.json` in their respective collection
   - Create Index in Rules (Look at /db/firebaseRules.json)
 - Clone the repo
 - Browse to the repo directory in your terminal
