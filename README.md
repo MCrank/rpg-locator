@@ -1,68 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# RPG-LOCATOR
 
-## Available Scripts
+This is my Front-End capstone project designed to test my skills learned over the last 6-months of evening classes as Nashville Software School (NSS).
 
-In the project directory, you can run:
+This is a site that can be used to search for any Role-Playng Games that are in search of additional players. You as a DM have the ability to enter your campaign that will show up in searches in and around your area.
 
-### `npm start`
+<hr>
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Requirements
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- Use create-react-app to start a new react project
+- Leverage Github projects for task tracking
+- Add Google Authentication via Firebase
+- When a user is not logged in they should see a NavBar with a login button
+- When a user is logged in they should see the navbar with a logout button and the mockup layout
+- Users should be able to search from the home page and if there are any campaigns within 35 Miles of the selected address you shoudl see a list of them on the left and markers on the map.
+- Users shuould be able to Create, Read, Update, & Delete their own campaigns
 
-### `npm test`
+<hr>
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `npm run build`
+#### Login Page
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Login](./screenshots/RPG-Login.jpg)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+#### Home Page
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Screenshot](./screenshots/RPG-Home.jpg)
 
-### `npm run eject`
+#### Campaigns Page
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Screenshot](./screenshots/RPG-MyCampaigns.jpg)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to run this project
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<hr>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Requirements
 
-## Learn More
+- Firebase Account - (https://firebase.google.com/)
+- Bing Maps Key - (https://www.bingmapsportal.com/)
+- Mapbox Key - (https://www.mapbox.com/)
+- Windows Users may need to install _**win-node-env**_ globally or as optional dependency to the project
+  - `npm install -g win-node-env`
+  - `npm install --save-optional win-node-env`
+- Use the `/src/helpers/apiKeys.js.example` enter your API Key information and rename to `apiKeys.js`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Start Project
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- Setup Firebase
+  - Create a project
+  - Enable Google Authentication - [Before you Begin Section](https://firebase.google.com/docs/auth/web/google-signin?authuser=0)
+  - Create a Firebase **Realtime Database** (Not Firestore)
+  - Create Index in Rules (Look at /db/firebaseRules.json)
+- Clone the repo
+- Browse to the repo directory in your terminal
+- Type `npm install` to install dependencies
+- Type `npm start` to run the project at [http://localhost:3000](http://localhost:3000)
