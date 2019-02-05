@@ -21,7 +21,6 @@ const getForwardGeocode = (searchString, lng, lat) => new Promise((resolve, reje
         &fuzzyMatch=false&access_token=${key}`,
     )
     .then((res) => {
-      // res.data.features[0].context.find(ctx => ctx.id.includes("region")).text
       const resData = res.data.features[0].center;
       const regData = res.data.features[0].context.find(ctx => ctx.id.includes('region')).text;
       const resPosition = {

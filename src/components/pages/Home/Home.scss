@@ -11,24 +11,19 @@ h1 {
   height: 500px;
 }
 .row {
-  // ::-webkit-scrollbar,
-  // ::-webkit-scrollbar-button {
-  //   display: none;
-  // }
-  // -ms-overflow-style: none;
-  ::-webkit-scrollbar-thumb {
-    background: #ff0000;
+  ::-webkit-scrollbar,
+  ::-webkit-scrollbar-button {
+    display: none;
   }
+  -ms-overflow-style: none;
   overflow: hidden;
 }
 
 .campaign-col {
   height: 75vh;
-  margin-right: -50px;
-  padding-right: 50px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .search-form {
-  width: 39% !important;
+  width: 45% !important;
 }
