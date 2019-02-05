@@ -1,21 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import {
-  Button,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Row,
-} from 'reactstrap';
+import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import authRequests from '../../helpers/data/authRequests';
 import autoSuggest from '../../helpers/data/autoSuggest';
+import mapboxRequests from '../../helpers/data/mapBoxRequests';
 import './CampaignForm.scss';
 
 const defaultCampaign = {
@@ -42,6 +31,7 @@ const defaultMarker = {
   lng: '',
   imgUrl: '',
   campaignId: '',
+  uid: '',
 };
 
 class CampaignForm extends React.Component {
@@ -101,7 +91,7 @@ class CampaignForm extends React.Component {
     const tempCampaign = { ...this.state.newCampaign };
     const tempMarker = { ...this.state.newMarker };
     tempCampaign[name] = event.target.value;
-    if ([, 'title', 'state', 'zipcode', 'notes', 'imgUrl'].indexOf(name) >= 0) {
+    if (['title', 'state', 'zipcode', 'notes', 'imgUrl'].indexOf(name) !== -1) {
       tempMarker[name] = event.target.value;
     }
     this.setState({
@@ -122,25 +112,31 @@ class CampaignForm extends React.Component {
   };
 
   autoSuggestState = (name, event) => {
-    const { suggestedArray } = this.state;
+    const { suggestedArray, position } = this.state;
     const tempCampaign = { ...this.state.newCampaign };
     const tempMarker = { ...this.state.newMarker };
     const selectedSuggest = suggestedArray.filter(s => s.address.formattedAddress === name[0]);
     const formFill = selectedSuggest[0].address;
-    tempCampaign.street1 = formFill.addressLine;
-    tempCampaign.city = formFill.locality;
-    tempMarker.city = formFill.locality;
-    tempCampaign.state = formFill.adminDistrict;
-    tempMarker.state = formFill.adminDistrict;
-    tempCampaign.zipcode = formFill.postalCode;
-    tempMarker.zipcode = formFill.postalCode;
-    this.setState({
-      newCampaign: tempCampaign,
-      newMarker: tempMarker,
-    });
-    this.typeahead.getInstance().clear();
-    // This is where I am and what I am thinking.  Trying to get LAT/LNG to pass into Forward GEO
-    // So I can get the LAT/LNG for the campaign MArker.
+    // Lets get the Forward GEO for the selected address to popuate the Marker props
+    mapboxRequests
+      .getForwardGeocode(formFill.formattedAddress, position.lng, position.lat)
+      .then((res) => {
+        tempCampaign.street1 = formFill.addressLine;
+        tempCampaign.city = formFill.locality;
+        tempMarker.city = formFill.locality;
+        tempCampaign.state = formFill.adminDistrict;
+        tempMarker.state = formFill.adminDistrict;
+        tempCampaign.zipcode = formFill.postalCode;
+        tempMarker.zipcode = formFill.postalCode;
+        tempMarker.lat = res.lat;
+        tempMarker.lng = res.lng;
+        this.setState({
+          newCampaign: tempCampaign,
+          newMarker: tempMarker,
+        });
+        this.typeahead.getInstance().clear();
+      })
+      .catch(error => console.error('There was an error getting the requested location'));
   };
 
   titleChange = event => this.formFieldStringState('title', event);
@@ -172,9 +168,14 @@ class CampaignForm extends React.Component {
     event.preventDefault();
     const { onSubmit } = this.props;
     const myNewCampaign = { ...this.state.newCampaign };
+    const myNewMarker = { ...this.state.newMarker };
     myNewCampaign.uid = authRequests.getCurrentUid();
-    onSubmit(myNewCampaign);
-    this.setState({ newCampaign: defaultCampaign });
+    myNewMarker.uid = authRequests.getCurrentUid();
+    onSubmit(myNewCampaign, myNewMarker);
+    this.setState({
+      newCampaign: defaultCampaign,
+      newMarker: defaultMarker,
+    });
   };
 
   autoSuggestEvent = (e) => {

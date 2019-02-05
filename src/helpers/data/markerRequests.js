@@ -31,7 +31,7 @@ const getMarkers = (state, currentPos, maxDistance) => new Promise((resolve, rej
 
 const deleteMarker = campaignId => axios.delete(`${firebaseDbURL}/markers/${campaignId}.json`);
 
-const newMarker = campaign => axios.post(`${firebaseDbURL}/markers.json`, campaign);
+const newMarker = marker => axios.post(`${firebaseDbURL}/markers.json`, marker);
 
 const getSingleMarker = campaignId => axios.get(`${firebaseDbURL}/markers/${campaignId}.json`);
 

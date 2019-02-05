@@ -1,6 +1,7 @@
 import React from 'react';
 import authRequests from '../../../helpers/data/authRequests';
 import campaignRequests from '../../../helpers/data/campaignRequests';
+import markerRequests from '../../../helpers/data/markerRequests';
 import CampaignForm from '../../CampaignForm/CampaignForm';
 import CampaignItem from '../../CampaignItem/CampaignItem';
 import './MyCampaigns.scss';
@@ -39,11 +40,11 @@ class MyCampaigns extends React.Component {
       .catch(error => console.error('There was an error deleting your campaign', error));
   };
 
-  formSubmitEvent = (newCampaign) => {
+  formSubmitEvent = (newCampaign, newMarker) => {
     const { isEditing, editId } = this.state;
     if (isEditing) {
       campaignRequests
-        .editCampaign(editId, newCampaign)
+        .editCampaign(editId)
         .then(() => {
           this.getMyCampaigns();
           this.setState({
@@ -57,9 +58,8 @@ class MyCampaigns extends React.Component {
       campaignRequests
         .newCampaign(newCampaign)
         .then((res) => {
-          console.log(res);
-          // markerRequests
-          // .newMarker(res.data.name)
+          newMarker.campaignId = res.data.name;
+          markerRequests.newMarker(newMarker);
           this.getMyCampaigns();
           this.setState({ showModal: false });
         })

@@ -133,7 +133,7 @@ class Home extends React.Component {
           this.getNearbyCampaigns(this.state.region, this.state.position, searchRadius);
           this.typeahead.getInstance().clear();
         })
-        .catch(error => console.error('there was an error getting the requested location', error));
+        .catch(error => console.error('There was an error getting the requested location', error));
     } else {
       this.setState({ selectedSearchAddress: e.target.value });
     }
