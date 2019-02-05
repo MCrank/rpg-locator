@@ -14,8 +14,16 @@
   }
 }
 
+.navbar-nav > li:last-child {
+  padding-left: 1rem !important;
+}
+
 .navbar-nav > li:not(:last-child) {
   border-right: 2px solid $text;
   box-sizing: border-box;
   padding: 0 1rem !important;
+}
+
+.navbar-nav > li > a {
+  font-size: 1.2rem;
 }

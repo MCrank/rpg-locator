@@ -22,7 +22,7 @@ const getForwardGeocode = (searchString, lng, lat) => new Promise((resolve, reje
     )
     .then((res) => {
       const resData = res.data.features[0].center;
-      const regData = res.data.features[0].context[3].text;
+      const regData = res.data.features[0].context.find(ctx => ctx.id.includes('region')).text;
       const resPosition = {
         lng: resData[0],
         lat: resData[1],
