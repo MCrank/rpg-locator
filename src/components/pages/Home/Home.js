@@ -143,6 +143,16 @@ class Home extends React.Component {
     this.setState({ zoom: [zoomLvl] });
   };
 
+  setPosition = (position, zoomLvl) => {
+    this.setState({
+      position: {
+        lat: position.lat,
+        lng: position.lng,
+      },
+      zoom: [zoomLvl],
+    });
+  };
+
   render() {
     const {
       suggestResults,
@@ -197,6 +207,7 @@ class Home extends React.Component {
                 searchRadius={searchRadius}
                 campaigns={searchCampaigns}
                 onZoomEndEvent={this.onZoomEndEvent}
+                setPosition={this.setPosition}
               />
             </div>
           </div>
