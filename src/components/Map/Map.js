@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, { Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl } from 'react-mapbox-gl';
+import ReactMapboxGl, {
+  Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl,
+} from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
@@ -17,6 +19,7 @@ class Maps extends React.Component {
     haveUsersLocation: PropTypes.bool,
     searchRadius: PropTypes.number,
     campaigns: PropTypes.array,
+    activePop: PropTypes.bool,
     campaignPop: PropTypes.object,
     onZoomEndEvent: PropTypes.func,
     markerClick: PropTypes.func,
@@ -45,8 +48,9 @@ class Maps extends React.Component {
 
   render() {
     const {
-      position, zoom, pitch, campaigns, campaignPop,
+      position, zoom, pitch, campaigns, campaignPop, activePop,
     } = this.props;
+
     return (
       <Mapbox
         onStyleLoad={(el) => {
@@ -66,7 +70,6 @@ class Maps extends React.Component {
         <ZoomControl />
         <RotationControl position="top-right" style={{ top: 80 }} />
         <ScaleControl measurement="mi" position="top-left" />
-
         <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
           {campaigns.map(campaign => (
             <Feature
@@ -77,7 +80,7 @@ class Maps extends React.Component {
             />
           ))}
         </Layer>
-        {campaignPop && (
+        {activePop ? (
           <Popup
             key={campaignPop.campaignId}
             coordinates={[campaignPop.position.lng, campaignPop.position.lat]}
@@ -90,7 +93,8 @@ class Maps extends React.Component {
           >
             <h5>{campaignPop.title}</h5>
           </Popup>
-        )}
+        ) : null}
+        ;
       </Mapbox>
     );
   }
