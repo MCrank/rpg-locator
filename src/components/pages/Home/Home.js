@@ -27,6 +27,7 @@ class Home extends React.Component {
     pitch: [0],
     searchRadius: 57,
     searchCampaigns: [],
+    activePop: false,
     campaignPop: {
       title: '',
       campaignId: '',
@@ -160,6 +161,7 @@ class Home extends React.Component {
     const { searchCampaigns } = this.state;
     const clickedCampaign = searchCampaigns[markerId];
     this.setState({
+      activePop: true,
       campaignPop: {
         title: clickedCampaign.title,
         campaignId: clickedCampaign.campaignId,
@@ -184,6 +186,7 @@ class Home extends React.Component {
   closePopup = (oldposition) => {
     const { prevPosition } = this.state;
     this.setState({
+      activePop: false,
       campaignPop: {
         title: '',
         campaignId: '',
@@ -221,6 +224,7 @@ class Home extends React.Component {
       haveUsersLocation,
       searchRadius,
       searchCampaigns,
+      activePop,
       campaignPop,
     } = this.state;
 
@@ -270,6 +274,7 @@ class Home extends React.Component {
                 haveUsersLocation={haveUsersLocation}
                 searchRadius={searchRadius}
                 campaigns={searchCampaigns}
+                activePop={activePop}
                 campaignPop={campaignPop}
                 onZoomEndEvent={this.onZoomEndEvent}
                 markerClick={this.markerClick}
