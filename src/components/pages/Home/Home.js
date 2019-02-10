@@ -6,7 +6,7 @@ import autoSuggest from '../../../helpers/data/autoSuggest';
 import mapBoxRequests from '../../../helpers/data/mapBoxRequests';
 import markerRequests from '../../../helpers/data/markerRequests';
 import CampaignItemSearch from '../../CampaignItemSearch/CampaignItemSearch';
-import Maps from '../../Map/Map';
+import Map from '../../Map/Map';
 import './Home.scss';
 
 class Home extends React.Component {
@@ -27,6 +27,18 @@ class Home extends React.Component {
     pitch: [0],
     searchRadius: 57,
     searchCampaigns: [],
+    campaignPop: {
+      title: '',
+      campaignId: '',
+      position: {
+        lng: 0,
+        lat: 0,
+      },
+    },
+    prevPosition: {
+      lng: 0,
+      lat: 0,
+    },
   };
 
   componentDidMount() {
@@ -132,6 +144,7 @@ class Home extends React.Component {
           });
           this.getNearbyCampaigns(this.state.region, this.state.position, searchRadius);
           this.typeahead.getInstance().clear();
+          this.closePopup();
         })
         .catch(error => console.error('There was an error getting the requested location', error));
     } else {
@@ -141,6 +154,48 @@ class Home extends React.Component {
 
   onZoomEndEvent = (zoomLvl) => {
     this.setState({ zoom: [zoomLvl] });
+  };
+
+  markerClick = (markerId) => {
+    const { searchCampaigns } = this.state;
+    const clickedCampaign = searchCampaigns[markerId];
+    this.setState({
+      campaignPop: {
+        title: clickedCampaign.title,
+        campaignId: clickedCampaign.campaignId,
+        position: {
+          lng: clickedCampaign.lng,
+          lat: clickedCampaign.lat,
+        },
+      },
+      prevPosition: {
+        lng: this.state.position.lng,
+        lat: this.state.position.lat,
+      },
+    });
+    this.setPosition(this.state.campaignPop.position, 14);
+  };
+
+  callSetPos = () => {
+    const { campaignPop } = this.state;
+    this.setPosition(campaignPop.position, 14);
+  };
+
+  closePopup = (oldposition) => {
+    const { prevPosition } = this.state;
+    this.setState({
+      campaignPop: {
+        title: '',
+        campaignId: '',
+        position: {
+          lng: 0,
+          lat: 0,
+        },
+      },
+    });
+    if (oldposition) {
+      this.setPosition(prevPosition, 8);
+    }
   };
 
   setPosition = (position, zoomLvl) => {
@@ -166,9 +221,18 @@ class Home extends React.Component {
       haveUsersLocation,
       searchRadius,
       searchCampaigns,
+      campaignPop,
     } = this.state;
 
-    const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => <CampaignItemSearch key={campaign.id} campaign={campaign} />);
+    const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => (
+        <CampaignItemSearch
+          key={campaign.id}
+          campaign={campaign}
+          campaigns={searchCampaigns}
+          setPosition={this.setPosition}
+          markerClick={this.markerClick}
+        />
+    ));
 
     return (
       <div className="Home">
@@ -199,14 +263,17 @@ class Home extends React.Component {
           <div className="row">
             <div className="campaign-col col-sm-4">{campaignItemSearchComponent(searchCampaigns)}</div>
             <div className="map-col col-sm-8">
-              <Maps
+              <Map
                 position={position}
                 zoom={zoom}
                 pitch={pitch}
                 haveUsersLocation={haveUsersLocation}
                 searchRadius={searchRadius}
                 campaigns={searchCampaigns}
+                campaignPop={campaignPop}
                 onZoomEndEvent={this.onZoomEndEvent}
+                markerClick={this.markerClick}
+                closePopup={this.closePopup}
                 setPosition={this.setPosition}
               />
             </div>

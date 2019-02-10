@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, {
-  Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl,
-} from 'react-mapbox-gl';
+import ReactMapboxGl, { Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl } from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
@@ -12,21 +10,6 @@ const Mapbox = ReactMapboxGl({
 });
 
 class Maps extends React.Component {
-  state = {
-    campaignPop: {
-      title: '',
-      campaignId: '',
-      position: {
-        lng: 0,
-        lat: 0,
-      },
-    },
-    prevPostion: {
-      lng: 0,
-      lat: 0,
-    },
-  };
-
   static propTypes = {
     position: PropTypes.object,
     zoom: PropTypes.array,
@@ -34,7 +17,10 @@ class Maps extends React.Component {
     haveUsersLocation: PropTypes.bool,
     searchRadius: PropTypes.number,
     campaigns: PropTypes.array,
+    campaignPop: PropTypes.object,
     onZoomEndEvent: PropTypes.func,
+    markerClick: PropTypes.func,
+    closePopup: PropTypes.func,
     setPosition: PropTypes.func,
   };
 
@@ -46,47 +32,21 @@ class Maps extends React.Component {
     }
   };
 
-  markerClick = (e) => {
-    const { campaigns, setPosition } = this.props;
-    const clickedCampaign = campaigns[e.feature.properties.id];
-    this.setState({
-      campaignPop: {
-        title: clickedCampaign.title,
-        campaignId: clickedCampaign.campaignId,
-        position: {
-          lng: clickedCampaign.lng,
-          lat: clickedCampaign.lat,
-        },
-      },
-      prevPostion: {
-        lng: this.props.position.lng,
-        lat: this.props.position.lat,
-      },
-    });
-    setPosition(this.state.campaignPop.position, 14);
+  markerItemClick = (e) => {
+    const { markerClick } = this.props;
+    const clickedMarkerId = e.feature.properties.id;
+    markerClick(clickedMarkerId);
   };
 
-  closePopup = () => {
-    const { prevPostion } = this.state;
-    const { setPosition } = this.props;
-    this.setState({
-      campaignPop: {
-        title: '',
-        campaignId: '',
-        position: {
-          lng: 0,
-          lat: 0,
-        },
-      },
-    });
-    setPosition(prevPostion, 8);
+  closeMyPopup = () => {
+    const { closePopup } = this.props;
+    closePopup(true);
   };
 
   render() {
     const {
-      position, zoom, pitch, campaigns,
+      position, zoom, pitch, campaigns, campaignPop,
     } = this.props;
-    const { campaignPop } = this.state;
     return (
       <Mapbox
         onStyleLoad={(el) => {
@@ -113,7 +73,7 @@ class Maps extends React.Component {
               id={campaign.campaignId}
               key={campaign.campaignId}
               coordinates={[campaign.lng, campaign.lat]}
-              onClick={this.markerClick}
+              onClick={this.markerItemClick}
             />
           ))}
         </Layer>
@@ -126,7 +86,7 @@ class Maps extends React.Component {
               bottom: [0, -25],
               'bottom-right': [-12, -25],
             }}
-            onClick={this.closePopup}
+            onClick={this.closeMyPopup}
           >
             <h5>{campaignPop.title}</h5>
           </Popup>
