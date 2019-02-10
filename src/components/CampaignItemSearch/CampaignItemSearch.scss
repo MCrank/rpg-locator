@@ -1,5 +1,9 @@
 @import '../../styles/variables';
 
+.CampaignItemSearch {
+  cursor: pointer;
+}
+
 .card {
   background-color: rgb(0, 0, 0) !important;
   color: $mapGreen !important;

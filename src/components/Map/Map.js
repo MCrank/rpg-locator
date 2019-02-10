@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, {
-  Feature, Layer, RotationControl, ScaleControl, ZoomControl,
-} from 'react-mapbox-gl';
+import ReactMapboxGl, { Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl } from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
@@ -19,7 +17,11 @@ class Maps extends React.Component {
     haveUsersLocation: PropTypes.bool,
     searchRadius: PropTypes.number,
     campaigns: PropTypes.array,
+    campaignPop: PropTypes.object,
     onZoomEndEvent: PropTypes.func,
+    markerClick: PropTypes.func,
+    closePopup: PropTypes.func,
+    setPosition: PropTypes.func,
   };
 
   getCurrentZoom = () => {
@@ -30,9 +32,20 @@ class Maps extends React.Component {
     }
   };
 
+  markerItemClick = (e) => {
+    const { markerClick } = this.props;
+    const clickedMarkerId = e.feature.properties.id;
+    markerClick(clickedMarkerId);
+  };
+
+  closeMyPopup = () => {
+    const { closePopup } = this.props;
+    closePopup(true);
+  };
+
   render() {
     const {
-      position, zoom, pitch, campaigns,
+      position, zoom, pitch, campaigns, campaignPop,
     } = this.props;
     return (
       <Mapbox
@@ -56,9 +69,28 @@ class Maps extends React.Component {
 
         <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
           {campaigns.map(campaign => (
-            <Feature key={campaign.campaignId} coordinates={[campaign.lng, campaign.lat]} properties />
+            <Feature
+              id={campaign.campaignId}
+              key={campaign.campaignId}
+              coordinates={[campaign.lng, campaign.lat]}
+              onClick={this.markerItemClick}
+            />
           ))}
         </Layer>
+        {campaignPop && (
+          <Popup
+            key={campaignPop.campaignId}
+            coordinates={[campaignPop.position.lng, campaignPop.position.lat]}
+            offset={{
+              'bottom-left': [12, -25],
+              bottom: [0, -25],
+              'bottom-right': [-12, -25],
+            }}
+            onClick={this.closeMyPopup}
+          >
+            <h5>{campaignPop.title}</h5>
+          </Popup>
+        )}
       </Mapbox>
     );
   }
