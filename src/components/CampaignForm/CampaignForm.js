@@ -5,6 +5,7 @@ import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFoot
 import authRequests from '../../helpers/data/authRequests';
 import autoSuggest from '../../helpers/data/autoSuggest';
 import mapboxRequests from '../../helpers/data/mapBoxRequests';
+import stateRequests from '../../helpers/data/stateRequests';
 import './CampaignForm.scss';
 
 const defaultCampaign = {
@@ -49,6 +50,8 @@ class CampaignForm extends React.Component {
       lat: '',
       lng: '',
     },
+    dropdownOpen: false,
+    usStates: [],
   };
 
   static propTypes = {
@@ -58,7 +61,14 @@ class CampaignForm extends React.Component {
     campaignToEdit: PropTypes.object,
     markerToEdit: PropTypes.object,
     modalCloseEvent: PropTypes.func,
+    usStates: PropTypes.array,
   };
+
+  dropToggle() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen,
+    }));
+  }
 
   toggle() {
     this.setState({
@@ -85,6 +95,9 @@ class CampaignForm extends React.Component {
           lng: res.data.longitude,
         },
       });
+    });
+    stateRequests.getAllStates().then((usStates) => {
+      this.setState({ usStates });
     });
   }
 
@@ -209,7 +222,7 @@ class CampaignForm extends React.Component {
 
   render() {
     const {
-      notesCharCount, notesMaxLength, newCampaign, isLoading, suggestResults,
+      notesCharCount, notesMaxLength, newCampaign, isLoading, suggestResults, usStates,
     } = this.state;
     return (
       <div className="CampaignForm">
@@ -365,12 +378,17 @@ class CampaignForm extends React.Component {
                     <Label for="state">State</Label>
                     <Input
                       className="form-input"
-                      type="text"
+                      type="select"
                       name="state"
                       id="state"
+                      placeholder="Select your State"
                       onChange={this.stateChange}
                       value={newCampaign.state}
-                    />
+                    >
+                      {usStates.map((state, i) => (
+                        <option key={i}>{state.name}</option>
+                      ))}
+                    </Input>
                   </FormGroup>
                 </Col>
                 <Col md={2}>
