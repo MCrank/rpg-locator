@@ -1,3 +1,4 @@
+import { Wave } from 'better-react-spinkit';
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -40,6 +41,7 @@ class Home extends React.Component {
       lng: 0,
       lat: 0,
     },
+    loading: true,
   };
 
   componentDidMount() {
@@ -82,7 +84,7 @@ class Home extends React.Component {
         },
         {
           enableHighAccuracy: true,
-          timeout: 3000,
+          timeout: 5000,
         },
       );
     } else {
@@ -107,6 +109,7 @@ class Home extends React.Component {
       .then((res) => {
         this.setState({
           searchCampaigns: res,
+          loading: false,
         });
       })
       .catch(error => console.error('There was an error retrieving regional campaigns', error));
@@ -226,6 +229,7 @@ class Home extends React.Component {
       searchCampaigns,
       activePop,
       campaignPop,
+      loading,
     } = this.state;
 
     const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => (
@@ -265,7 +269,9 @@ class Home extends React.Component {
         </InputGroup>
         <div className="container-fluid mt-5">
           <div className="row">
-            <div className="campaign-col col-sm-4">{campaignItemSearchComponent(searchCampaigns)}</div>
+            <div className="campaign-col col-sm-4">
+              {loading ? <div className="spinner"><Wave className='mx-auto' color="tomato" size={75} /></div> : campaignItemSearchComponent(searchCampaigns)}
+            </div>
             <div className="map-col col-sm-8">
               <Map
                 position={position}

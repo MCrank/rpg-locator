@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "better-react-spinkit": "^2.0.4",
     "bootstrap": "^4.2.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "firebase": "^5.8.0",
