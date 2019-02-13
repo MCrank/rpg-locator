@@ -42,7 +42,7 @@ class Home extends React.Component {
       lat: 0,
     },
     loading: true,
-    collapse: false,
+    closeCollapse: false,
   };
 
   componentDidMount() {
@@ -199,6 +199,7 @@ class Home extends React.Component {
           lat: 0,
         },
       },
+      closeCollapse: true,
     });
     if (oldposition) {
       this.setPosition(prevPosition, 8);
@@ -216,7 +217,7 @@ class Home extends React.Component {
   };
 
   collapseCard = () => {
-    this.setState({ collapse: true });
+    this.setState({ closeCollapse: false });
   };
 
   render() {
@@ -235,7 +236,7 @@ class Home extends React.Component {
       activePop,
       campaignPop,
       loading,
-      collapse,
+      closeCollapse,
     } = this.state;
 
     const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => (
@@ -243,10 +244,10 @@ class Home extends React.Component {
           key={campaign.id}
           campaign={campaign}
           campaigns={searchCampaigns}
-          collapse={collapse}
+          closeCollapse={closeCollapse}
           setPosition={this.setPosition}
           markerClick={this.markerClick}
-          // collapseCard={this.collapseCard}
+          collapseCard={this.collapseCard}
           closePopup={this.closePopup}
         />
     ));

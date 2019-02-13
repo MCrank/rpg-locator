@@ -16,10 +16,22 @@ class CampaignItemSearch extends React.Component {
     campaigns: PropTypes.array,
     setPosition: PropTypes.func,
     markerClick: PropTypes.func,
-    // collapseCard: PropTypes.func,
-    // collapse: PropTypes.bool,
+    collapseCard: PropTypes.func,
+    closeCollapse: PropTypes.bool,
     closePopup: PropTypes.func,
   };
+
+  componentDidUpdate() {
+    const { closeCollapse } = this.props;
+    if (closeCollapse) {
+      if (this.state.collapse) {
+        this.setState({ collapse: false });
+      }
+    }
+  }
+
+  // componentWillReceiveProps(props) {
+  // }
 
   toggle() {
     const { closePopup } = this.props;
@@ -47,6 +59,11 @@ class CampaignItemSearch extends React.Component {
     // collapseCard();
   };
 
+  collapseClosed = () => {
+    const { collapseCard } = this.props;
+    collapseCard();
+  };
+
   render() {
     const { campaign } = this.props;
     const { collapse } = this.state;
@@ -57,7 +74,7 @@ class CampaignItemSearch extends React.Component {
         <Button onClick={this.zoomCard} block={true}>
           {collapse ? 'Close' : 'More Info'}
         </Button>
-        <Collapse isOpen={collapse}>
+        <Collapse isOpen={collapse} onExited={this.collapseClosed}>
           <Card className="campaign-card" id={campaign.campaignId} />
           {/* <CardHeader>{campaign.title}</CardHeader> */}
           <CardBody>
