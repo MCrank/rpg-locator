@@ -42,6 +42,7 @@ class Home extends React.Component {
       lat: 0,
     },
     loading: true,
+    collapse: false,
   };
 
   componentDidMount() {
@@ -214,6 +215,10 @@ class Home extends React.Component {
     });
   };
 
+  collapseCard = () => {
+    this.setState({ collapse: true });
+  };
+
   render() {
     const {
       suggestResults,
@@ -230,6 +235,7 @@ class Home extends React.Component {
       activePop,
       campaignPop,
       loading,
+      collapse,
     } = this.state;
 
     const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => (
@@ -237,8 +243,11 @@ class Home extends React.Component {
           key={campaign.id}
           campaign={campaign}
           campaigns={searchCampaigns}
+          collapse={collapse}
           setPosition={this.setPosition}
           markerClick={this.markerClick}
+          // collapseCard={this.collapseCard}
+          closePopup={this.closePopup}
         />
     ));
 
@@ -270,7 +279,13 @@ class Home extends React.Component {
         <div className="container-fluid mt-5">
           <div className="row">
             <div className="campaign-col col-sm-4">
-              {loading ? <div className="spinner"><Wave className='mx-auto' color="tomato" size={75} /></div> : campaignItemSearchComponent(searchCampaigns)}
+              {loading ? (
+                <div className="spinner">
+                  <Wave className="mx-auto" color="tomato" size={75} />
+                </div>
+              ) : (
+                campaignItemSearchComponent(searchCampaigns)
+              )}
             </div>
             <div className="map-col col-sm-8">
               <Map
@@ -285,7 +300,7 @@ class Home extends React.Component {
                 onZoomEndEvent={this.onZoomEndEvent}
                 markerClick={this.markerClick}
                 closePopup={this.closePopup}
-                setPosition={this.setPosition}
+                // setPosition={this.setPosition}
               />
             </div>
           </div>
