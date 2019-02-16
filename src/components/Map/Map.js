@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, {
-  Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl,
-} from 'react-mapbox-gl';
+import ReactMapboxGl, { Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl } from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
@@ -24,7 +22,7 @@ class Maps extends React.Component {
     onZoomEndEvent: PropTypes.func,
     markerClick: PropTypes.func,
     closePopup: PropTypes.func,
-    setPosition: PropTypes.func,
+    // setPosition: PropTypes.func,
   };
 
   getCurrentZoom = () => {

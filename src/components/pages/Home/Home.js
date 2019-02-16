@@ -42,6 +42,8 @@ class Home extends React.Component {
       lat: 0,
     },
     loading: true,
+    closeCollapse: false,
+    whichCollapse: '',
   };
 
   componentDidMount() {
@@ -177,6 +179,7 @@ class Home extends React.Component {
         lng: this.state.position.lng,
         lat: this.state.position.lat,
       },
+      whichCollapse: clickedCampaign.campaignId,
     });
     this.setPosition(this.state.campaignPop.position, 14);
   };
@@ -198,6 +201,8 @@ class Home extends React.Component {
           lat: 0,
         },
       },
+      closeCollapse: true,
+      whichCollapse: '',
     });
     if (oldposition) {
       this.setPosition(prevPosition, 8);
@@ -212,6 +217,10 @@ class Home extends React.Component {
       },
       zoom: [zoomLvl],
     });
+  };
+
+  collapseCard = () => {
+    this.setState({ closeCollapse: false });
   };
 
   render() {
@@ -230,6 +239,8 @@ class Home extends React.Component {
       activePop,
       campaignPop,
       loading,
+      closeCollapse,
+      whichCollapse,
     } = this.state;
 
     const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => (
@@ -237,8 +248,12 @@ class Home extends React.Component {
           key={campaign.id}
           campaign={campaign}
           campaigns={searchCampaigns}
+          closeCollapse={closeCollapse}
+          whichCollapse={whichCollapse}
           setPosition={this.setPosition}
           markerClick={this.markerClick}
+          collapseCard={this.collapseCard}
+          closePopup={this.closePopup}
         />
     ));
 
@@ -262,15 +277,17 @@ class Home extends React.Component {
             onSearch={this.autoSuggestEvent}
             onKeyDown={this.searchResultsEvent}
           />
-          {/* Was thinking to use ths button. Going to leave it for now just in case */}
-          {/* <InputGroupAddon addonType="append">
-            <Button color="secondary">Search</Button>
-          </InputGroupAddon> */}
         </InputGroup>
         <div className="container-fluid mt-5">
           <div className="row">
             <div className="campaign-col col-sm-4">
-              {loading ? <div className="spinner"><Wave className='mx-auto' color="tomato" size={75} /></div> : campaignItemSearchComponent(searchCampaigns)}
+              {loading ? (
+                <div className="spinner">
+                  <Wave className="mx-auto" color="tomato" size={75} />
+                </div>
+              ) : (
+                campaignItemSearchComponent(searchCampaigns)
+              )}
             </div>
             <div className="map-col col-sm-8">
               <Map
@@ -285,7 +302,6 @@ class Home extends React.Component {
                 onZoomEndEvent={this.onZoomEndEvent}
                 markerClick={this.markerClick}
                 closePopup={this.closePopup}
-                setPosition={this.setPosition}
               />
             </div>
           </div>
