@@ -19,6 +19,7 @@ class CampaignItemSearch extends React.Component {
     collapseCard: PropTypes.func,
     closeCollapse: PropTypes.bool,
     closePopup: PropTypes.func,
+    whichCollapse: PropTypes.string,
   };
 
   componentDidUpdate() {
@@ -30,8 +31,13 @@ class CampaignItemSearch extends React.Component {
     }
   }
 
-  // componentWillReceiveProps(props) {
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.whichCollapse !== this.props.whichCollapse) {
+      if (nextProps.whichCollapse === this.props.campaign.campaignId) {
+        this.toggle();
+      }
+    }
+  }
 
   toggle() {
     const { closePopup } = this.props;
@@ -56,7 +62,6 @@ class CampaignItemSearch extends React.Component {
       14,
     );
     this.toggle();
-    // collapseCard();
   };
 
   collapseClosed = () => {

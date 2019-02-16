@@ -43,6 +43,7 @@ class Home extends React.Component {
     },
     loading: true,
     closeCollapse: false,
+    whichCollapse: '',
   };
 
   componentDidMount() {
@@ -178,6 +179,7 @@ class Home extends React.Component {
         lng: this.state.position.lng,
         lat: this.state.position.lat,
       },
+      whichCollapse: clickedCampaign.campaignId,
     });
     this.setPosition(this.state.campaignPop.position, 14);
   };
@@ -200,6 +202,7 @@ class Home extends React.Component {
         },
       },
       closeCollapse: true,
+      whichCollapse: '',
     });
     if (oldposition) {
       this.setPosition(prevPosition, 8);
@@ -237,6 +240,7 @@ class Home extends React.Component {
       campaignPop,
       loading,
       closeCollapse,
+      whichCollapse,
     } = this.state;
 
     const campaignItemSearchComponent = campaignsArr => campaignsArr.map(campaign => (
@@ -245,6 +249,7 @@ class Home extends React.Component {
           campaign={campaign}
           campaigns={searchCampaigns}
           closeCollapse={closeCollapse}
+          whichCollapse={whichCollapse}
           setPosition={this.setPosition}
           markerClick={this.markerClick}
           collapseCard={this.collapseCard}
@@ -272,10 +277,6 @@ class Home extends React.Component {
             onSearch={this.autoSuggestEvent}
             onKeyDown={this.searchResultsEvent}
           />
-          {/* Was thinking to use ths button. Going to leave it for now just in case */}
-          {/* <InputGroupAddon addonType="append">
-            <Button color="secondary">Search</Button>
-          </InputGroupAddon> */}
         </InputGroup>
         <div className="container-fluid mt-5">
           <div className="row">
@@ -301,7 +302,6 @@ class Home extends React.Component {
                 onZoomEndEvent={this.onZoomEndEvent}
                 markerClick={this.markerClick}
                 closePopup={this.closePopup}
-                // setPosition={this.setPosition}
               />
             </div>
           </div>
