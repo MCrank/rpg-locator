@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Button, Card, CardBody, CardText, CardTitle, Collapse,
+  Badge, Card, CardBody, CardText, Collapse,
 } from 'reactstrap';
 import './CampaignItemSearch.scss';
 
@@ -74,18 +74,37 @@ class CampaignItemSearch extends React.Component {
     const { collapse } = this.state;
     return (
       <div className="CampaignItemSearch mb-3">
-        <h4>{campaign.title}</h4>
-        <h6>Players Needed: {campaign.playersNeeded}</h6>
-        <Button onClick={this.zoomCard} block={true}>
-          {collapse ? 'Close' : 'More Info'}
-        </Button>
-        <Collapse isOpen={collapse} onExited={this.collapseClosed}>
+        <div className="row">
+          <div className="col-sm-8">
+            <h4 className="campaign-title">{campaign.title}</h4>
+          </div>
+          <div className="col-sm-4">
+            <button className="button campaign-button" onClick={this.zoomCard}>
+              {collapse ? 'Close' : 'More Info'}
+            </button>
+            {/* <Button className="button campaign-button" onClick={this.zoomCard} block={true}>
+              {collapse ? 'Close' : 'More Info'}
+            </Button> */}
+          </div>
+        </div>
+        <Collapse className="campaign-collapse" isOpen={collapse} onExited={this.collapseClosed}>
           <Card className="campaign-card" id={campaign.campaignId} />
           {/* <CardHeader>{campaign.title}</CardHeader> */}
           <CardBody>
-            <CardTitle>Players Needed: {campaign.playersNeeded}</CardTitle>
-            <CardText>DM Notes:</CardText>
-            <CardText>{campaign.notes}</CardText>
+            <div className="row">
+              <div className="campaign-card-vl col-sm-8">
+                <CardText className="campaign-players">Players Needed:</CardText>
+                <CardText className="campaign-players-value">
+                  <Badge>{campaign.playersNeeded}</Badge>
+                </CardText>
+                <hr />
+                <CardText className="campaign-notes-title">DM Notes:</CardText>
+                <CardText className="campaign-notes">{campaign.notes}</CardText>
+              </div>
+              <div className="col-sm-4 text-align-center-center">
+                <img className="campaign-card-img" src={campaign.imgUrl} alt="" />
+              </div>
+            </div>
           </CardBody>
           {/* <div className="card text-white bg-info" id={campaign.campaignId} onClick={this.zoomCard}>
             <h5 className="card-header">{campaign.title}</h5>

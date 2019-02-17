@@ -2,19 +2,115 @@
 
 .CampaignItemSearch {
   cursor: pointer;
+  border: 1px solid #c0c0c0;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  -moz-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
 }
 
-// .card {
-//   background-color: rgb(0, 0, 0) !important;
-//   color: $mapGreen !important;
-//   border: 1px solid rgba(192, 192, 192, 0.8) !important;
-// }
+.row {
+  align-items: center;
+}
+
+.card {
+  border: none;
+  // background-color: rgb(0, 0, 0) !important;
+  // color: $mapGreen !important;
+  // border: 1px solid rgba(192, 192, 192, 0.8) !important;
+}
+
 .card-body {
-  background-color: rgb(0, 0, 0) !important;
+  margin: 6px;
+  background-color: rgba(0, 0, 0, 0.8) !important;
   color: $mapGreen !important;
   border: 1px solid rgba(192, 192, 192, 0.8) !important;
+  border-radius: 10px;
 }
 
 .card-header {
   border-bottom: 1px solid rgba(192, 192, 192, 0.6) !important;
+}
+
+.campaign-collapse {
+  margin-top: 10px;
+}
+
+.campaign-card-vl {
+  border-right: 2px solid silver;
+}
+
+.campaign-players {
+  font-size: 1.1rem;
+  display: inline-block;
+  text-decoration: underline;
+  color: $rpgRed;
+}
+
+.campaign-players-value {
+  float: right;
+  text-align: center;
+  font-size: 1.5rem;
+  // display: inline-block;
+}
+
+.campaign-notes-title {
+  font-size: 1.1rem;
+  text-decoration: underline;
+  color: $rpgRed;
+}
+
+.campaign-notes {
+  font-size: 1.2rem;
+  text-align: justify;
+  text-justify: auto;
+}
+
+.campaign-card-img {
+  max-width: 150px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+}
+
+.button {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  // border: 2px solid $red;
+  border-radius: 0.3em;
+  // color: $red;
+  // cursor: pointer;
+  // display: flex;
+  // align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  // line-height: 1;
+  margin: 20px;
+  // padding: 1.2em 2.8em;
+  text-decoration: none;
+  text-align: center;
+  // text-transform: uppercase;
+  // font-family: 'Montserrat', sans-serif;
+  // font-weight: 700;
+
+  // &:hover,
+  // &:focus {
+  //   color: #fff;
+  //   outline: 0;
+  // }
+}
+
+.campaign-button {
+  min-width: 100px;
+  border-color: $mapGreen;
+  color: #fff;
+  // box-shadow: 0 0 40px 40px $mapGreen inset, 0 0 0 0 $mapGreen;
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 10px 0 $mapGreen inset, 0 0 10px 4px $mapGreen;
+  }
 }

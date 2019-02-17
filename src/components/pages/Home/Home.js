@@ -283,7 +283,7 @@ class Home extends React.Component {
             <div className="campaign-col col-sm-4">
               {loading ? (
                 <div className="spinner">
-                  <Wave className="mx-auto" color="tomato" size={75} />
+                  <Wave className="mx-auto" color="red" size={75} />
                 </div>
               ) : (
                 campaignItemSearchComponent(searchCampaigns)

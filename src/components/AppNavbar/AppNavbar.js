@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import {
+  Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink,
+} from 'reactstrap';
 import './AppNavbar.scss';
 
 class AppNavbar extends React.Component {
@@ -22,18 +24,21 @@ class AppNavbar extends React.Component {
           <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink tag={RRNavLink} to="/home">
+                <i className="fas fa-search-location fa-1x" />
                 Search Campaigns
                 {/* <i className="fas fa-users fa-2x" /> */}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to="/campaigns">
+                <i className="fas fa-dungeon fa-1x" />
                 My Campaigns
                 {/* <i className="fas fa-users fa-2x" /> */}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} onClick={logoutClickEvent} to="/home">
+                <i className="fas fa-sign-out-alt fa-1x" />
                 Logout
                 {/* <i className="fas fa-users fa-2x" /> */}
               </NavLink>

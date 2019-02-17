@@ -6,9 +6,9 @@
 
 .navbar-brand,
 .nav-link {
-  color: tomato !important;
-  font-family: $font;
-  font-size: 1.5rem;
+  color: $rpgRed !important;
+  font-family: $font-primary;
+  font-size: 2rem;
   .nav-link {
     font-size: 1rem !important;
   }
@@ -26,4 +26,8 @@
 
 .navbar-nav > li > a {
   font-size: 1.2rem;
+}
+
+.fas {
+  margin-right: 8px;
 }

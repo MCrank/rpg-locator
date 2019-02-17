@@ -7,6 +7,7 @@ body {
 .map {
   height: 70vh;
   width: auto;
+  border-radius: 10px;
 }
 
 .Maps {
@@ -14,5 +15,10 @@ body {
 }
 
 .mapboxgl-map {
+  opacity: 0.9;
   border: 1px solid rgba(192, 192, 192, 0.8) !important;
+  border-radius: 8px;
+  -webkit-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  -moz-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
 }

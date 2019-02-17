@@ -41,7 +41,7 @@ class CampaignItem extends React.Component {
       <tr className="CampaignItem">
         <th scope="row">{rowNumber}</th>
         <td>
-          <img src={campaign.imgUrl} alt="campaign" />
+          <img className="campaign-item-img" src={campaign.imgUrl} alt="campaign" />
         </td>
         <td>{campaign.title}</td>
         <td>{campaign.dmName}</td>
