@@ -2,19 +2,102 @@
 
 .CampaignItemSearch {
   cursor: pointer;
+  border: 2px solid #c0c0c0;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  -moz-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
 }
 
-// .card {
-//   background-color: rgb(0, 0, 0) !important;
-//   color: $mapGreen !important;
-//   border: 1px solid rgba(192, 192, 192, 0.8) !important;
-// }
+.row {
+  align-items: center;
+}
+
+.card {
+  border: none;
+}
+
 .card-body {
-  background-color: rgb(0, 0, 0) !important;
+  margin: 6px;
+  background-color: rgba(0, 0, 0, 0.8) !important;
   color: $mapGreen !important;
   border: 1px solid rgba(192, 192, 192, 0.8) !important;
+  border-radius: 10px;
 }
 
 .card-header {
   border-bottom: 1px solid rgba(192, 192, 192, 0.6) !important;
+}
+
+.campaign-collapse {
+  margin-top: 10px;
+}
+
+.campaign-title {
+  padding-left: 10px;
+}
+
+.campaign-card-vl {
+  border-right: 2px solid silver;
+}
+
+.campaign-players {
+  font-size: 1.1rem;
+  display: inline-block;
+  text-decoration: underline;
+  color: $rpgRed;
+}
+
+.campaign-players-value {
+  float: right;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.campaign-notes-title {
+  font-size: 1.1rem;
+  text-decoration: underline;
+  color: $rpgRed;
+}
+
+.campaign-notes {
+  font-size: 1.2rem;
+  text-align: justify;
+  text-justify: auto;
+}
+
+.campaign-card-img {
+  max-width: 150px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+}
+
+.button {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border-radius: 0.3em;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 20px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.campaign-btn-div {
+  text-align: center;
+}
+.campaign-button {
+  text-align: center;
+  min-width: 100px;
+  border-color: $mapGreen;
+  color: #fff;
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 10px 0 $mapGreen inset, 0 0 10px 4px $mapGreen;
+  }
 }

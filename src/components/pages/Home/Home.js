@@ -32,6 +32,8 @@ class Home extends React.Component {
     campaignPop: {
       title: '',
       campaignId: '',
+      playersNeeded: '',
+      imgUrl: '',
       position: {
         lng: 0,
         lat: 0,
@@ -170,6 +172,8 @@ class Home extends React.Component {
       campaignPop: {
         title: clickedCampaign.title,
         campaignId: clickedCampaign.campaignId,
+        playersNeeded: clickedCampaign.playersNeeded,
+        imgUrl: clickedCampaign.imgUrl,
         position: {
           lng: clickedCampaign.lng,
           lat: clickedCampaign.lat,
@@ -196,6 +200,8 @@ class Home extends React.Component {
       campaignPop: {
         title: '',
         campaignId: '',
+        playersNeeded: '',
+        imgUrl: '',
         position: {
           lng: 0,
           lat: 0,
@@ -283,7 +289,7 @@ class Home extends React.Component {
             <div className="campaign-col col-sm-4">
               {loading ? (
                 <div className="spinner">
-                  <Wave className="mx-auto" color="tomato" size={75} />
+                  <Wave className="mx-auto" color="red" size={75} />
                 </div>
               ) : (
                 campaignItemSearchComponent(searchCampaigns)

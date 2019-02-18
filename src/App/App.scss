@@ -1,7 +1,11 @@
 @import '../styles/variables';
 
 h1 {
-  font-family: $font;
+  font-family: $font-primary;
+}
+
+body {
+  font-family: $font-secondary;
 }
 
 .App {

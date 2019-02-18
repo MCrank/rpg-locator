@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, { Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl } from 'react-mapbox-gl';
+import ReactMapboxGl, {
+  Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl,
+} from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
@@ -51,6 +53,7 @@ class Maps extends React.Component {
 
     return (
       <Mapbox
+        className="campaign-map"
         onStyleLoad={(el) => {
           this.map = el;
         }}
@@ -80,6 +83,7 @@ class Maps extends React.Component {
         </Layer>
         {activePop ? (
           <Popup
+            className="campaign-pop"
             key={campaignPop.campaignId}
             coordinates={[campaignPop.position.lng, campaignPop.position.lat]}
             offset={{
@@ -89,7 +93,9 @@ class Maps extends React.Component {
             }}
             onClick={this.closeMyPopup}
           >
-            <h5>{campaignPop.title}</h5>
+            <h4>{campaignPop.title}</h4>
+            <hr />
+            <p>Players Needed: {campaignPop.playersNeeded}</p>
           </Popup>
         ) : null}
         ;

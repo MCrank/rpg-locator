@@ -10,6 +10,14 @@
   color: silver;
 }
 
+.form-control:focus {
+  color: $mapGreen !important;
+}
+.form-control::placeholder {
+  color: $rpgRed !important;
+  opacity: 0.6;
+}
+
 .form-input,
 .rbt-input {
   background-color: rgb(0, 0, 0) !important;
@@ -21,7 +29,7 @@
 }
 
 .typeahead-label {
-  color: tomato;
+  color: $rpgRed;
 }
 
 hr {

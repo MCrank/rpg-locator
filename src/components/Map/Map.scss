@@ -7,6 +7,7 @@ body {
 .map {
   height: 70vh;
   width: auto;
+  border-radius: 10px;
 }
 
 .Maps {
@@ -14,5 +15,26 @@ body {
 }
 
 .mapboxgl-map {
-  border: 1px solid rgba(192, 192, 192, 0.8) !important;
+  opacity: 0.9;
+  border: 2px solid rgba(192, 192, 192, 0.8) !important;
+  border-radius: 8px;
+  -webkit-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  -moz-box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+  box-shadow: 3px 3px 0px 0px rgba(192, 192, 192, 0.5);
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: rgba(72, 206, 177, 0.8) !important;
+}
+
+.mapboxgl-popup-content {
+  font-family: $font-secondary;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px dashed $mapGreen;
+  color: $rpgRed;
+}
+
+p {
+  font-size: 1.1rem;
 }

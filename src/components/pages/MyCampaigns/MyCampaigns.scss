@@ -1,6 +1,10 @@
 @import '../../../styles/variables';
 
-.myCampaigns {
-  // margin-left: 1.5rem;
-  // margin-right: 1.5rem;
+.table-responsive {
+  background: rgba($color: #000000, $alpha: 0.8);
+  border-radius: 8px;
+}
+
+.particle-btn {
+  float: right;
 }

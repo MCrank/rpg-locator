@@ -249,7 +249,7 @@ class CampaignForm extends React.Component {
                       type="text"
                       name="title"
                       id="title"
-                      placeholder="ex: Tomb of Annihilation"
+                      placeholder="Tomb of Annihilation"
                       onChange={this.titleChange}
                       value={newCampaign.title}
                     />
