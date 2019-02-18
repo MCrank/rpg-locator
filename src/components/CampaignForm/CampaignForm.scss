@@ -10,13 +10,12 @@
   color: silver;
 }
 
-.form-control {
-  :focus {
-    color: $mapGreen !important;
-  }
-  ::placeholder {
-    color: $rpgRed !important;
-  }
+.form-control:focus {
+  color: $mapGreen !important;
+}
+.form-control::placeholder {
+  color: $rpgRed !important;
+  opacity: 0.6;
 }
 
 .form-input,

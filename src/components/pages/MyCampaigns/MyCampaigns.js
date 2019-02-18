@@ -1,4 +1,5 @@
 import React from 'react';
+import ParticleEffectButton from 'react-particle-effect-button';
 import authRequests from '../../../helpers/data/authRequests';
 import campaignRequests from '../../../helpers/data/campaignRequests';
 import markerRequests from '../../../helpers/data/markerRequests';
@@ -15,6 +16,7 @@ class MyCampaigns extends React.Component {
     markerEditId: '-1',
     campaignToEdit: {},
     markerToEdit: {},
+    hidden: false,
   };
 
   componentDidMount() {
@@ -97,14 +99,17 @@ class MyCampaigns extends React.Component {
       .catch(error => console.error('There was an issue getting a single campaign', error));
   };
 
-  showModal = () => {
+  showModal = (e) => {
+    e.preventDefault();
     this.setState({
+      hidden: !this.state.hidden,
       showModal: true,
     });
   };
 
   modalCloseEvent = () => {
     this.setState({
+      hidden: !this.state.hidden,
       campaignToEdit: {},
       markerToEdit: {},
       showModal: false,
@@ -136,7 +141,7 @@ class MyCampaigns extends React.Component {
 
     return (
       <div className="myCampaigns container">
-        <h1>MyCampaigns</h1>
+        <h1 className="mt-2">MyCampaigns</h1>
         <CampaignForm
           showModal={this.state.showModal}
           onSubmit={this.formSubmitEvent}
@@ -144,9 +149,11 @@ class MyCampaigns extends React.Component {
           {...editFormProps}
           modalCloseEvent={this.modalCloseEvent}
         />
-        <button className="btn btn-info mb-1 float-right" onClick={this.showModal}>
-          New
-        </button>
+        <ParticleEffectButton className="particle-btn" color="#50a895" hidden={this.state.hidden}>
+          <button className="new-btn btn btn-info mb-1 float-right" onClick={this.showModal}>
+            New
+          </button>
+        </ParticleEffectButton>
         <div className="table-responsive">
           <table className="table table-striped">
             <thead>
@@ -155,7 +162,7 @@ class MyCampaigns extends React.Component {
                 <th scope="col">Image</th>
                 <th scope="col">Title</th>
                 <th scope="col">DM</th>
-                <th scope="col">Players Needed</th>
+                <th scope="col">Players</th>
                 <th scope="col-sm">Notes</th>
                 <th scope="col">Edit/Delete</th>
               </tr>

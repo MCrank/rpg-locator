@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ParticleEffectButton from 'react-particle-effect-button';
 import {
   Badge, Card, CardBody, CardText, Collapse,
 } from 'reactstrap';
@@ -8,6 +9,8 @@ import './CampaignItemSearch.scss';
 class CampaignItemSearch extends React.Component {
   state = {
     collapse: false,
+    hidden: false,
+    animating: false,
   };
 
   // Passing in all campaigns as well so I can filter by array index to show the popup as well.
@@ -53,6 +56,7 @@ class CampaignItemSearch extends React.Component {
     } = this.props;
 
     const clickedCampaignId = campaigns.map(c => c.campaignId).indexOf(campaign.campaignId);
+    this.setState({ hidden: !this.state.hidden });
     markerClick(clickedCampaignId);
     setPosition(
       {
@@ -62,6 +66,10 @@ class CampaignItemSearch extends React.Component {
       14,
     );
     this.toggle();
+  };
+
+  animationComplete = () => {
+    this.setState({ hidden: false });
   };
 
   collapseClosed = () => {
@@ -78,18 +86,22 @@ class CampaignItemSearch extends React.Component {
           <div className="col-sm-8">
             <h4 className="campaign-title">{campaign.title}</h4>
           </div>
-          <div className="col-sm-4">
-            <button className="button campaign-button" onClick={this.zoomCard}>
-              {collapse ? 'Close' : 'More Info'}
-            </button>
-            {/* <Button className="button campaign-button" onClick={this.zoomCard} block={true}>
-              {collapse ? 'Close' : 'More Info'}
-            </Button> */}
+          <div className="campaign-btn-div col-sm-4">
+            <ParticleEffectButton
+              className="particle-btn"
+              color="#50a895"
+              duration={700}
+              hidden={this.state.hidden}
+              onComplete={this.animationComplete}
+            >
+              <button className="button campaign-button" onClick={this.zoomCard}>
+                {collapse ? 'Close' : 'More Info'}
+              </button>
+            </ParticleEffectButton>
           </div>
         </div>
         <Collapse className="campaign-collapse" isOpen={collapse} onExited={this.collapseClosed}>
           <Card className="campaign-card" id={campaign.campaignId} />
-          {/* <CardHeader>{campaign.title}</CardHeader> */}
           <CardBody>
             <div className="row">
               <div className="campaign-card-vl col-sm-8">
@@ -106,13 +118,6 @@ class CampaignItemSearch extends React.Component {
               </div>
             </div>
           </CardBody>
-          {/* <div className="card text-white bg-info" id={campaign.campaignId} onClick={this.zoomCard}>
-            <h5 className="card-header">{campaign.title}</h5>
-            <div className="card-body">
-              <h5 className="card-title">{campaign.playersNeeded}</h5>
-              <p className="card-text">{campaign.notes}</p>
-            </div>
-          </div> */}
         </Collapse>
       </div>
     );

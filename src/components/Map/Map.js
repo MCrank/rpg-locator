@@ -83,6 +83,7 @@ class Maps extends React.Component {
         </Layer>
         {activePop ? (
           <Popup
+            className="campaign-pop"
             key={campaignPop.campaignId}
             coordinates={[campaignPop.position.lng, campaignPop.position.lat]}
             offset={{
@@ -92,7 +93,9 @@ class Maps extends React.Component {
             }}
             onClick={this.closeMyPopup}
           >
-            <h5>{campaignPop.title}</h5>
+            <h4>{campaignPop.title}</h4>
+            <hr />
+            <p>Players Needed: {campaignPop.playersNeeded}</p>
           </Popup>
         ) : null}
         ;
