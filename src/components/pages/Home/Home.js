@@ -153,6 +153,7 @@ class Home extends React.Component {
           this.getNearbyCampaigns(this.state.region, this.state.position, searchRadius);
           this.typeahead.getInstance().clear();
           this.closePopup();
+          this.collapseCard();
         })
         .catch(error => console.error('There was an error getting the requested location', error));
     } else {
