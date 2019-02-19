@@ -140,7 +140,7 @@ class MyCampaigns extends React.Component {
 
     return (
       <div className="myCampaigns container">
-        <h1 className="mt-2">MyCampaigns</h1>
+        <h1 className="mt-2">My Campaigns</h1>
         <CampaignForm
           showModal={this.state.showModal}
           onSubmit={this.formSubmitEvent}
