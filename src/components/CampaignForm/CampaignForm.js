@@ -1,17 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import {
+  Button,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+} from 'reactstrap';
 import authRequests from '../../helpers/data/authRequests';
 import autoSuggest from '../../helpers/data/autoSuggest';
 import mapboxRequests from '../../helpers/data/mapBoxRequests';
 import stateRequests from '../../helpers/data/stateRequests';
+import titleRequests from '../../helpers/data/titleRequests';
 import './CampaignForm.scss';
 
 const defaultCampaign = {
   title: '',
   dmName: '',
   dmEmail: '',
+  imgUrl: '',
   playersNeeded: '',
   notes: '',
   street1: '',
@@ -52,6 +66,7 @@ class CampaignForm extends React.Component {
     },
     dropdownOpen: false,
     usStates: [],
+    titles: [],
   };
 
   static propTypes = {
@@ -99,6 +114,9 @@ class CampaignForm extends React.Component {
     stateRequests.getAllStates().then((usStates) => {
       this.setState({ usStates });
     });
+    titleRequests.getAllTitles().then((titles) => {
+      this.setState({ titles });
+    });
   }
 
   componentWillReceiveProps(props) {
@@ -138,6 +156,19 @@ class CampaignForm extends React.Component {
     });
   };
 
+  formfieldTitleState = (name, url, event) => {
+    const tempCampaign = { ...this.state.newCampaign };
+    const tempMarker = { ...this.state.newMarker };
+    tempCampaign.title = event.target.value;
+    tempCampaign.imgUrl = url;
+    tempMarker.title = event.target.value;
+    tempMarker.imgUrl = url;
+    this.setState({
+      newCampaign: tempCampaign,
+      newMarker: tempMarker,
+    });
+  };
+
   autoSuggestState = (name, event) => {
     const { suggestedArray, position } = this.state;
     const tempCampaign = { ...this.state.newCampaign };
@@ -166,7 +197,11 @@ class CampaignForm extends React.Component {
       .catch(error => console.error('There was an error getting the requested location'));
   };
 
-  titleChange = event => this.formFieldStringState('title', event);
+  titleChange = (event) => {
+    const { titles } = this.state;
+    const url = titles[event.target.selectedIndex].imgUrl;
+    this.formfieldTitleState('title', url, event);
+  };
 
   playersChange = event => this.formFieldNumberState('playersNeeded', event);
 
@@ -222,7 +257,7 @@ class CampaignForm extends React.Component {
 
   render() {
     const {
-      notesCharCount, notesMaxLength, newCampaign, isLoading, suggestResults, usStates,
+      notesCharCount, notesMaxLength, newCampaign, isLoading, suggestResults, usStates, titles,
     } = this.state;
     return (
       <div className="CampaignForm">
@@ -246,13 +281,26 @@ class CampaignForm extends React.Component {
                     <Label for="title">Title</Label>
                     <Input
                       className="form-input"
+                      type="select"
+                      name="title"
+                      id="title"
+                      placeholder="Tomb of Annihilation"
+                      onChange={this.titleChange}
+                      value={newCampaign.title}
+                    >
+                      {titles.map((title, i) => (
+                        <option key={i}>{title.name}</option>
+                      ))}
+                    </Input>
+                    {/* <Input
+                      className="form-input"
                       type="text"
                       name="title"
                       id="title"
                       placeholder="Tomb of Annihilation"
                       onChange={this.titleChange}
                       value={newCampaign.title}
-                    />
+                    /> */}
                   </FormGroup>
                 </Col>
                 <Col md={6}>
