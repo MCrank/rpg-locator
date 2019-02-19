@@ -100,7 +100,6 @@ class MyCampaigns extends React.Component {
   };
 
   showModal = (e) => {
-    e.preventDefault();
     this.setState({
       hidden: !this.state.hidden,
       showModal: true,

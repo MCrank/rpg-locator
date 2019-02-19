@@ -6,8 +6,20 @@
   border: 1px solid silver;
 }
 
+.modal-header,
+.modal-footer {
+  background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.modal-body {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
 .close {
   color: silver;
+  :hover {
+    color: $mapGreen;
+  }
 }
 
 .form-control:focus {
