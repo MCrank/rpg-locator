@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactMapboxGl, {
-  Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl,
-} from 'react-mapbox-gl';
+import ReactMapboxGl, { Feature, Layer, Popup, RotationControl, ScaleControl, ZoomControl } from 'react-mapbox-gl';
 import apiKeys from '../../helpers/apiKeys';
 import './Map.scss';
 
@@ -60,7 +58,7 @@ class Maps extends React.Component {
         // eslint-disable-next-line react/style-prop-object
         style="mapbox://styles/mcrank/cjrdujrz51j632smgkqkutz7c"
         containerStyle={{
-          height: '75vh',
+          height: '65vh',
           width: 'auto',
         }}
         center={position}
