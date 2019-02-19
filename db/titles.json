@@ -1,0 +1,34 @@
+{
+  "camp0": {
+    "name": "",
+    "imgUrl": ""
+  },
+  "camp1": {
+    "name": "Curse of Strahd",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FCoS.jpg?alt=media&token=e327eef7-c167-4d8f-b1b2-3c30b9075c7d"
+  },
+  "camp2": {
+    "name": "Horde of the Dragon Queen",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FHoDQ.jpg?alt=media&token=a843cfc3-9bfe-4e2f-ac84-fcbcbd28ad14"
+  },
+  "camp3": {
+    "name": "Princes of the Apocalypse",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FPoA.jpg?alt=media&token=2dbd54d5-ea96-427b-b018-1bef4359975c"
+  },
+  "camp4": {
+    "name": "Storm Kings Thunder",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FSKT.jpg?alt=media&token=d0f8a7b4-bb42-48e0-aa29-90232c06cdc9"
+  },
+  "camp5": {
+    "name": "The Rise of Tiamat",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FRoT.jpg?alt=media&token=6167afdc-a5f7-49c4-97e5-25552456ee07"
+  },
+  "camp6": {
+    "name": "Tomb of Annihilation",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FToA.jpg?alt=media&token=7d6e3786-f604-48ac-b88d-427959d75dc7"
+  },
+  "camp7": {
+    "name": "Waterdeep Dragon Heist",
+    "imgUrl": "https://firebasestorage.googleapis.com/v0/b/rpg-locator.appspot.com/o/campaigns%2Fcovers%2FDoH.jpg?alt=media&token=4f2f0950-279b-4409-80ad-de220a460851"
+  }
+}
