@@ -11,6 +11,7 @@ class CampaignItemSearch extends React.Component {
     collapse: false,
     hidden: false,
     animating: false,
+    buttonText: 'More Info',
   };
 
   // Passing in all campaigns as well so I can filter by array index to show the popup as well.
@@ -29,7 +30,7 @@ class CampaignItemSearch extends React.Component {
     const { closeCollapse } = this.props;
     if (closeCollapse) {
       if (this.state.collapse) {
-        this.setState({ collapse: false });
+        this.setState({ collapse: false, hidden: true });
       }
     }
   }
@@ -69,7 +70,15 @@ class CampaignItemSearch extends React.Component {
   };
 
   animationComplete = () => {
-    this.setState({ hidden: false });
+    const { collapse } = this.state;
+    if (collapse) {
+      this.setState({
+        hidden: false,
+        buttonText: 'Close',
+      });
+    } else {
+      this.setState({ hidden: false, buttonText: 'More Info' });
+    }
   };
 
   collapseClosed = () => {
@@ -79,7 +88,7 @@ class CampaignItemSearch extends React.Component {
 
   render() {
     const { campaign } = this.props;
-    const { collapse } = this.state;
+    const { collapse, buttonText } = this.state;
     return (
       <div className="CampaignItemSearch mb-3">
         <div className="row">
@@ -95,8 +104,11 @@ class CampaignItemSearch extends React.Component {
               onComplete={this.animationComplete}
             >
               <button className="button campaign-button" onClick={this.zoomCard}>
-                {collapse ? 'Close' : 'More Info'}
+                {buttonText}
               </button>
+              {/* <button className="button campaign-button" onClick={this.zoomCard}>
+                {collapse ? 'Close' : 'More Info'}
+              </button> */}
             </ParticleEffectButton>
           </div>
         </div>
